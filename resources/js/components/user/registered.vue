@@ -40,12 +40,29 @@
 
         <!-- 2/3  -->
         <v-col cols="12" sm="8">
+            <v-card class="red lighten-4" >
+                <v-card-text>
+                       PLEASE NOTE IF YOU WISH PAY VIA THE BANK EITHER BY ZIPIT,DIRECT DEPOSIT,INTERNET BANKING OR  TRANSFERS MAKE SURE TO ENTER YOUR PRAZ NUMBER <b>({{company.regnumber}})</b> AS THE TRANSACTION DESCRIPTION. THIS WILL ALLOW OUR SYSTEM TO AUTOMATICAL IDENTIFY YOUR PAYMENT
+       
+                </v-card-text>
+                <v-card-actions>
+                 
+       <v-btn
+        text
+        color="primary"
+        @click="shownotice=true"
+      >
+        View Bank Details
+      </v-btn>
+                </v-card-actions>
+            </v-card>
+          
             <v-row>
                 <v-col cols="12" sm="6">
                     
             <div>
                 <v-card flat>
-                    <v-card-title class="text-center red lighten-4">Pending invoices</v-card-title>
+                    <v-card-title class="text-center orange lighten-4">Pending invoices</v-card-title>
                     <v-card-text>
 
                         <v-btn block outlined  color="red" class="mt-5" v-if="invoice.length > 0 "  @click="startRegistration"> Continue</v-btn>
@@ -111,9 +128,7 @@
                 <v-col  sm="2">
                      <div class="black--text font-weight-bold">Status</div>
                 </v-col>
-                <v-col  sm="2">
-                     <div class="black--text font-weight-bold">Tenders</div>
-                </v-col>
+                
                 <v-col  sm="2">
                     
                 </v-col>              
@@ -136,16 +151,7 @@
                     </span>
                    
                 </v-col>
-                <v-col  sm="2">                     
-                     <v-badge
-                        color="red"
-                        :content="reg.category.notices.length ? reg.category.notices.length : 0 "
-                        >  
-                        <v-btn icon>
-                            <v-icon>fa fa-bell-o</v-icon>
-                        </v-btn>
-                     </v-badge> 
-                </v-col>                
+                             
                 <v-col  sm="2">                     
                     <div class="d-flex justify-center" v-if="reg.status=='APPROVED'"> 
                           <div v-if="reg.expire_year == currentyear">
@@ -383,6 +389,40 @@
                     </v-card>
 
                 </v-dialog>
+                <v-dialog v-model="shownotice" max-width="600">
+                    <v-card>
+                        <v-card-title>Bank Details</v-card-title>
+                        <v-card-text>
+                            <p> 
+                              <b>  NON-REFUNDABLE (LOCAL)(For Suppliers Registrations, Tender related fees)</b><br/>
+                              PAYMENT INSTRUCTIONS:<br/>
+                               BANK NAME: COMMERCIAL BANK OF ZIMBABWE<br/>
+                                ACCOUNT NAME: PROCUREMENT REGULATORY AUTHORITY OF ZIMBABWE<br/>
+                               ACCOUNT NUMBER: 01121064850020<br/>
+                                BRANCH: KWAME NKRUMAH
+                            </p>
+                             <p> 
+                                <b>REFUNDABLE (LOCAL)(For Bid Bond Security)</b><br/>
+                              PAYMENT INSTRUCTIONS:<br/>
+                               BANK NAME: COMMERCIAL BANK OF ZIMBABWE<br/>
+                                ACCOUNT NAME: PROCUREMENT REGULATORY AUTHORITY OF ZIMBABWE<br/>
+                               ACCOUNT NUMBER: 01121064850030<br/>
+                                BRANCH: KWAME NKRUMAH
+                            </p>
+                              <p> 
+                                <b>FCA ACCOUNT (USD DEPOSITS)</b><br/>
+                              PAYMENT INSTRUCTIONS:<br/>
+                               BANK NAME: COMMERCIAL BANK OF ZIMBABWE<br/>
+                                ACCOUNT NAME: PROCUREMENT REGULATORY AUTHORITY OF ZIMBABWE<br/>
+                               ACCOUNT NUMBER: 01121064850040<br/>
+                                BRANCH: KWAME NKRUMAH<br/>
+                                BRANCH SORT CODE:6101<br/>
+                                SWIFT CODE: COBZZWHAXXX
+                            </p>
+                            
+                        </v-card-text>
+                    </v-card>
+                </v-dialog>
 </div>
  </v-container>
 </div>
@@ -454,7 +494,8 @@ export default {
             },
             changeDialog:false,
             refnumberRule:[v => !!v || 'Reference number required'],
-            refform:true
+            refform:true,
+            shownotice:false
         }
     },
     mounted(){
