@@ -1,0 +1,143 @@
+ public $fee;
+    public $tender_id;
+    public $tender;
+    public $cost; 
+    protected $service;
+    public $invoice;
+    public $mode;
+    public $showinvoice= true;
+    public $showform = false;
+    public $showconfirm = false;
+    public $phone;
+    public $trans_id;
+    public $pollurl;
+    public function mount($id,$fee){
+
+      if($fee === '1')
+        {
+          $fee = 'BIDBOND';
+        }
+       elseif($fee ==='2'){
+         $fee='ESTABLISHMENT';
+       }else{
+         $fee='SPOC';
+       }
+    $this->service = new serviceHelper();
+     $this->tender_id = $id;
+     $this->fee = $fee;
+     $tender = pnotice::whereid($id)->with('classification','currency','company')->orderBy('id','desc')->first();
+     if(!is_null($tender))
+     {
+         $this->tender = $tender;
+     if($fee ==='BIDBOND')
+     {
+       $this->cost = $tender->bidbond;
+     }
+     else if($fee === 'ESTABLISHMENT'){
+       $this->cost = $this->service->getEstablishmentFee($id);
+     }else if($fee ==='SPOC'){
+       $this->cost = $this->service->getSpocFee($id);
+     }else{
+         session()->flash('error','Tender Fee Not Found');
+         return redirect()->route('tenderlist');
+     }
+
+     $invoice = tender_invoice::where(['company_id'=>Auth::user()->company->id,'status'=>'PENDING'])->with('currency')->first();
+     if(is_null($invoice)){
+        $number = invoicenumber::orderBy('id','desc')->first();
+        $final ='';
+         $final = 'inv'.Carbon::now()->year.''.Carbon::now()->month.''.$number->invoice;
+         $number->invoice = $number->invoice+1;
+          $number->save();
+         $invoice = tender_invoice::create(['company_id'=>Auth::user()->company->id,'pnotice_id'=>$id,'invoice_number'=>$final,'description'=>$fee,'year'=>Carbon::now()->year,'cost'=>$this->cost,'currency_id'=>$tender->currency_id,'status'=>'PENDING','user_id'=>Auth::user()->id]);
+         session()->flash('success','SUCCESSFULLY ADDED ITEM TO INVOICE PLEASE MAKE PAYMENT');
+        }
+     else{
+         session()->flash('error','A PENDING INVOICE AS BEEN FOUND. PLEASE SETTLE IT BEFORE ADDING ANOTHER ENTRY ');
+     }
+     $this->invoice = $invoice;
+    }
+    else{
+        return redirect()->route('tenderlist');
+    }
+    }
+
+    public function deleteItem($id){
+      $item = tender_invoice::whereid($id)->first();
+      if(!is_null($item)){
+          if($item->status==='PENDING'){
+               if(count($item->onlinepayments)==0)
+               {
+                   $item->delete();
+                   session()->flash('success','SUCCESSFULLy DELETED ITEM');
+                   return redirect()->route('tendershow',$this->tender_id);
+
+               }
+               else{
+                   session()->flash('error','Invoice has payment attempts please click on the Check payment on invoice number: '.$item->invoice_number);
+                   return redirect()->route('payments');
+               }
+          }
+      }
+    
+    }
+
+    public function paymentForm($mode){
+     $this->mode = $mode;
+     $this->showform = true;
+     $this->showinvoice = false;
+    }
+
+    public function sendPayment(){
+        $this->validate(['phone'=>'required']);
+        $paynow = new paymentHelper();
+        $company = Auth::user()->company;
+        $invoice = tender_invoice::where(['company_id'=>$company->id,'status'=>'PENDING'])->with('currency')->first();
+       
+        $response =  $paynow->mobileTransaction($this->phone,$this->mode,$invoice->cost,$invoice->invoice_number,'admin@biznotifier.co.zw');
+        if(\strtoupper($response->data()['status']) == \strtoupper('ok'))
+        {
+       $this->total = $invoice->cost;
+       $this->pollurl = $response->pollUrl();
+       $onlinepayments = onlinepayments::create(['invoice_number'=>$invoice->invoice_number,'type'=>$invoice->description,'company_id'=>$company->id,'poll_url'=>$response->pollUrl(),'amount'=>$invoice->cost,'mode'=>$this->mode,'status'=>'PENDING']);
+       $this->trans_id = $onlinepayments->id;
+       $this->showform = false;
+       $this->showconfirm = true;
+        }else{
+          session()->flash('error',$response->data()['error']);
+          return;
+        }
+
+    }
+
+    public function checkpayment(){
+        $paynow = new paymentHelper();
+        $service = new serviceHelper();
+        $company = Auth::user()->company;
+        $status = $paynow->checkTransaction($this->pollurl);
+        if($status->paid())
+        {
+            $payments = onlinepayments::whereid($this->trans_id)->first();
+            $payments->status ='PAID';
+            $payments->save();
+            $receiptnumber = $paynow->receipt_number();
+            $invoice = tender_invoice::where(['company_id'=>$company->id,'status'=>'PENDING'])->with('currency')->first();
+            if(!receipt::whereinvoicenumber($invoice->invoice_number)->exists())
+               {
+                 receipt::create(['invoicenumber'=>$invoice->invoice_number,'type'=>$invoice->description,'receiptnumber'=>$receiptnumber,'company_id'=>$company->id,'method'=>$this->mode,'amount'=>$invoice->cost,'user_id'=>Auth::user()->id]);
+               }
+            $invoice->status = "PAID";
+            $invoice->save();
+            if($invoice->description==='BIDBOND'){
+              $service->saveBid($invoice->invoice_number,$receiptnumber,$invoice->pnotice_id);
+            }
+            session()->flash('success','successfully completed payment  please click on the Payment tab to access your receipt');
+            return redirect()->route('tendershow',$this->tender_id);
+           
+        }
+        else{
+            session()->flash('error','Transaction Not Completed Please click on check payment if money has  been deducted from your wallet');
+            return redirect()->route('payments');
+          }
+
+    }

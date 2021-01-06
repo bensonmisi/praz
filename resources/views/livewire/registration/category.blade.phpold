@@ -1,0 +1,102 @@
+<div>
+<div class="row justify-content-center mt-3">
+    <div class="col-sm-12 col-md-10">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{route('registration_documents')}}"><i class="fas fa-folder"></i> Company Documents</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Categories</li>
+        </ol>
+        </nav>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-10">
+              @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            @if (session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+        <div class="card">
+            <div class="card-header">
+                <h5>Supplier Registration<a href="{{route('registration_category_add')}}" class="btn btn-primary float-right">Add Category</a></h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr><th>Name</th><th>Currency</th><th>Cost</th></tr>
+                    </thead>
+                    <tbody>
+                        @forelse($invoices as $inv)
+                        <tr wire:key="{{$inv->id}}"><td>{{$inv->category->name}}</td>
+                        <td>
+                           {{$inv->currency->name}}
+                        </td>
+                        <td>
+                            {{$inv->cost}}<button class="btn btn-sm btn-default" wire:click="deleteItem({{$inv->id}})"><i class="fas fa-times text-danger"></i></button></td>
+                       
+                    </tr>
+                        @empty
+                        <tr><td colspan="3" class="text-danger text-center">No Category Added To Invoice As Yet</td></tr>
+                        @endforelse
+                        @if(count($invoices)>0)
+                        <tr><td colspan="2"><h5>Total Due</h5></td><td>{{$this->calculate_total()}}</td></tr>
+                        <tr><td colspan="3"><b>Download Your Proforma Invoice <a href="{{route('invoice_print',$invoices[0]->invoice_number)}}" target="_blank">(CLICK HERE)</a></b></td></tr>
+                        @endif
+                    </tbody>
+                </table>
+                </div>
+                @if(count($invoices)>0)
+                <h5>Select Preferred Payment Method</h5>
+                <hr/>
+                 <div class="row">
+                     @if(strtoupper(Auth::user()->company->country)==='ZIMBABWE')
+                     <div class="col-sm-12 col-md-3">
+                     <div class="card">
+                            <img src="{{asset('img/ecocash.png')}}" class="card-img-top" alt="...">
+                            <div class="card-footer">
+                                <a href="{{route('registration_mobile','ecocash')}}" class="btn btn-block btn-primary">Use Ecocash</a>
+                            </div>
+                     </div>
+
+                     </div>
+                     <div class="col-sm-12 col-md-3">
+                     <div class="card">
+                            <img src="{{asset('img/onemoney.jpg')}}" class="card-img-top" alt="...">
+                            <div class="card-footer">
+                                <a href="{{route('registration_mobile','onemoney')}}" class="btn btn-block btn-primary">Use Onemoney</a>
+                            </div>
+                     </div> 
+                     </div>
+                     @endif
+                     @if(strtoupper(Auth::user()->company->country)!=='ZIMBABWE')
+                     <div class="col-sm-12 col-md-3">
+                     <div class="card">
+                            <img src="{{asset('img/paynow.jpg')}}" class="card-img-top" alt="...">
+                            <div class="card-footer">
+                                <a href="{{route('registration_paynow')}}" class="btn btn-block btn-primary">Use (visa,mastercard)</a>
+                            </div>
+                     </div>
+                     </div>
+                     @endif
+                     <div class="col-sm-12 col-md-3">
+                     <div class="card">
+                     <img src="{{asset('img/upload.jpg')}}" class="card-img-top" alt="...">
+                     <div class="card-footer">
+                                <a href="{{route('registration_bank')}}" class="btn btn-block btn-primary">Upload POP</a>
+                            </div>
+                     </div>  
+                     </div>
+                 </div>
+                 @endif
+            </div>
+        </div>
+    </div>
+</div>
+</div>

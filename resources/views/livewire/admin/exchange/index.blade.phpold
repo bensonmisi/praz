@@ -1,0 +1,71 @@
+<div>
+<div class="row justify-content-center mt-3">
+    <div class="col-sm-12 col-md-10">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('admin.home')}}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Supplier Price Rates</li>
+        </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-10">
+         <livewire:message/>
+        <div class="card">
+            <div class="card-header">
+                <h5>Supplier Price rates <a href="{{route('can_add_exchange')}}" class="btn btn-primary float-right"><i class="fas fa-plus"></i> New</a></h5>
+            </div>
+            <div class="card-body">
+            <div class="form-group text-center">
+                <div wire:loading>
+                    <div class="text-center">
+                    <h4 class="text-primary">Processing ...
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                </div>
+                    </h4>
+                    </div>
+                        
+                </div>
+                    </div>
+                    <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Base Currency</th>
+                            <th>Secondary Currency</th>
+                            <th>Value</th>
+                            <th>
+                             Created By
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($exchange as $ex)
+                        <tr>
+                           <td>{{$ex->base_currency->name}}</td>
+                           <td>{{$ex->other_currency->name}}</td>
+                           <td>{{$ex->value}}</td>
+                            <td>
+                            {{$ex->user->name}}
+                               {{$ex->user->surname}}
+                            </td>
+                        </tr>
+
+                        @empty
+                        <tr><td colspan="2" class="text-danger text-center">No Supplier Exchange Rate Added As Yet</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

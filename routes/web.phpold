@@ -1,0 +1,240 @@
+<?php
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
+Route::get('verification','verificationController@search')->name('search');
+
+Route::group(['layout' => 'layouts.welcome'],function(){
+Route::livewire('/','welcome')->name('welcome');
+Route::livewire('/register','register')->name('register');
+Route::get('/login','loginController@index')->name('login');
+Route::post('/login','loginController@login')->name('loginSubmit');
+Route::livewire('/forgot','forgot')->name('forgot');
+Route::livewire('/activation','activation')->name('activation');
+Route::livewire('/Notices','notices.index')->name('notices'); 
+Route::livewire('/Suppliers','suppliers.index')->name('suppliers.index'); 
+Route::livewire('/Suppliers/Show/{id}','suppliers.show')->name('suppliers.show'); 
+Route::livewire('/Supplier/Details/{id}','suppliers.details')->name('suppliers.details'); 
+Route::livewire('/Notice/{id}','notices.show')->name('notice.show');
+Route::livewire('/Notice/Category/{id}','notices.category')->name('notice.category');
+Route::livewire('/AwardNotices','awards')->name('awardnotices');
+Route::livewire('/password_reset/{token}','reset')->name('reset');
+Route::livewire('/administrator/login','admin.login')->name('admin.login');
+});
+Route::get('/printinvoice/{inv}','invoiceController@download')->name('invoice_print');
+Route::get('/printbidbond/{id}','bidbondController@download')->name('bid_print');
+Route::get('/printreceipt/{inv}','receiptController@download')->name('receipt_print');
+Route::get('/printcertificate/{id}','certificateController@download')->name('certificate_print');
+Route::get('/tenderdocument/{id}','showTenderController@download')->name('tender_document');
+Route::get('/plandocument/{id}','planController@download')->name('plan_document');
+Route::get('/budgetdocument/{id}','budgetController@download')->name('budget_document');
+Route::get('/returnsdocument/{id}','returnsController@download')->name('returns_document');
+
+//Route::get('/invoice/download/{inv}','invoiceController@download')->name('invoice_download');
+//Auth::routes();
+Route::group(['middleware'=>'auth'],function(){
+    Route::livewire('/home','home')->name('home');
+    Route::livewire('/contacts','contacts')->name('contacts')->layout('layouts.welcome');
+    Route::livewire('/payments','payments')->name('payments');
+    Route::livewire('/invoices','invoices.index')->name('invoices');  
+    Route::livewire('/transfers','transfers')->name('transfers'); 
+    Route::livewire('/BidBonds','bidbonds')->name('bidbonds'); 
+    Route::livewire('/awaiting','awaiting')->name('awaiting'); 
+    Route::livewire('/reupload/{id}','reupload')->name('reupload'); 
+    Route::livewire('/documents','documents')->name('documents'); 
+    Route::livewire('/users','users')->name('users');
+    Route::livewire('/password','password')->name('password');
+    Route::livewire('/awards','awards.index')->name('awardlist');
+    Route::livewire('/award/{id}','awards.contract.show')->name('awardshow');
+    Route::livewire('/award/pay/{id}/{fee}','awards.payment')->name('awardpayment');
+    Route::livewire('/ProcurementNotices','tenders.index')->name('tenderlist');
+    Route::livewire('/tender/{id}','tenders.show')->name('tendershow');
+    Route::livewire('/tender/pay/{id}','tenders.payment')->name('tenderpayment');
+    Route::livewire('/invoice/{inv}','invoices.show')->name('invoice');
+    Route::livewire('/registration/bank','registration.bank')->name('registration_bank');
+    Route::livewire('/registration/payment','registration.payment')->name('registration_payment');
+    Route::livewire('/registration/documents','registration.documents')->name('registration_documents');
+    Route::livewire('/registration/documentUpload/{id}','registration.upload')->name('registration_document_upload');
+    Route::livewire('/registration/category','registration.category')->name('registration_category');
+    Route::livewire('/registration/add','registration.add')->name('registration_category_add');
+    Route::livewire('/paynow/initiate','registration.paynow')->name('registration_paynow');
+    Route::livewire('/mybalance/internal','registration.internal')->name('registration_internal');
+    Route::livewire('/paynow/return/{invo}','registration.returns')->name('registration_paynow_return');
+    Route::livewire('/paynow/mobile/{mode}','registration.mobile')->name('registration_mobile');   
+    Route::livewire('/logout','logout')->name('logout')->layout('layouts.welcome');
+});
+
+
+Route::group(['middleware'=>['auth','checkUser']],function(){
+  Route::livewire('/Entity','entity.home')->name('entity');
+  Route::livewire('/Awards','entity.awards')->name('awards');
+  Route::livewire('/Procurementnotices','entity.tenders')->name('tenders');
+  Route::livewire('/ProcurementReturns','entity.returns.index')->name('returns');
+  Route::livewire('/ProcurementBudgets','entity.budgets.index')->name('budgets.index');
+  Route::livewire('/Budgets/Add','entity.budgets.add')->name('budget.add');
+  Route::livewire('/Budgets/Edit/{id}','entity.budgets.edit')->name('budget.edit');
+  Route::livewire('/ProcurementPlans','entity.plans.index')->name('plans');
+  Route::livewire('/Plans/Add','entity.plans.add')->name('plan.add');
+  Route::livewire('/Plans/Edit/{id}','entity.plans.edit')->name('plan.edit');
+  Route::livewire('/Returns/upload/{id}','entity.returns.uploads')->name('returns.upload');
+  Route::livewire('/Returns/comments/{id}','entity.returns.comments')->name('returns.comment');
+  Route::livewire('/Plans/Delete/{id}','entity.plans.delete')->name('plan.deete');  
+  Route::livewire('/Tender/{id}','entity.tenders.show')->name('tender');
+  Route::livewire('/Tender/New/Add','entity.tenders.add')->name('tender_add');
+  Route::livewire('/Tender/Edit/{id}','entity.tenders.edit')->name('tender.edit');
+  Route::livewire('/Tender/Cancel/{id}','entity.tenders.cancel')->name('tender.cancel');
+  Route::livewire('/Tender/Publish/{id}','entity.tenders.publish')->name('tender.publish');
+  Route::livewire('/Tender/Awards/{id}','entity.awards.index')->name('tender.awards.index');
+  Route::livewire('/Awards/Edit/{id}','entity.awards.edit')->name('tender.awards.edit');
+  Route::livewire('/Awards/Delivered/{id}','entity.awards.delivary')->name('tender.awards.delivary');
+  Route::livewire('/Tender/Awards/Add/{id}','entity.awards.add')->name('tender.awards.add');
+ 
+});
+
+
+
+Route::prefix('administrator')->middleware('auth:admin')->group(function(){
+  Route::group(['layout'=>'layouts.admin'],function(){
+  Route::livewire('/','admin.home')->name('admin.home');
+   /** Sub Module Routes */
+      Route::group(['middleware'=>['auth:admin','checkSubModule']],function(){
+        Route::livewire('/roles','admin.roles.index')->name('admin.roles');    
+        Route::livewire('/users','admin.users.index')->name('admin.users');
+        Route::livewire('/Statment','admin.statement.import')->name('admin.statement.import');
+        Route::livewire('/modules','admin.modules.index')->name('admin.modules');
+        Route::livewire('/sections','admin.sections.index')->name('admin.sections');
+        Route::livewire('/category','admin.category.index')->name('admin.categories');
+        Route::livewire('/accounttype','admin.accounttype.index')->name('admin.accounttypes');
+        Route::livewire('/documents','admin.documents.index')->name('admin.documents');
+        Route::livewire('/currency','admin.currency.index')->name('admin.currency');
+        Route::livewire('/exchange','admin.exchange.index')->name('admin.exchange');
+        Route::livewire('/general','admin.general.index')->name('admin.general');
+        Route::livewire('/items','admin.items.index')->name('admin.items');
+        Route::livewire('/fees/suppliers','admin.fees.supplier.index')->name('admin.fees.suppliers');
+        Route::livewire('/fees/contract','admin.fees.contract.index')->name('admin.fees.contract');
+        Route::livewire('/fees/establishment','admin.fees.establish.index')->name('admin.fees.establish');
+        Route::livewire('/fees/spoc','admin.fees.spoc.index')->name('admin.fees.spoc');
+        Route::livewire('/settings/cap','admin.cap.index')->name('admin.cap');        
+        Route::livewire('/classification','admin.classification.index')->name('admin.classification');
+        Route::livewire('/pclass','admin.pclass.index')->name('admin.pclass');
+        Route::livewire('/threshold','admin.threshold.index')->name('admin.threshold');
+        Route::livewire('/Customer','admin.customer.index')->name('admin.customer');
+        Route::livewire('/Rtgs','admin.rtgs.index')->name('admin.rtgs');
+        Route::livewire('/Transactions','admin.transactions.index')->name('admin.transactions.index');
+        Route::livewire('/Onlinepayments','admin.onlinepayments.index')->name('admin.onlinepayments.index');
+        Route::livewire('/Summary','admin.finance.summary')->name('admin.finance.summary');
+        Route::livewire('/Suppliers','admin.suppliers.index')->name('admin.suppliers.index');
+        Route::livewire('/gazzate','admin.gazzate.index')->name('admin.gazzate.index');
+        Route::livewire('/entities','admin.entity.index')->name('admin.entity.index');
+        Route::livewire('/Plans','admin.plans.index')->name('admin.plans.index');
+        Route::livewire('/Budgets','admin.budgets.index')->name('admin.budgets.index');
+        Route::livewire('/Returns','admin.returns.index')->name('admin.returns.index');
+     
+      });
+
+  /**
+   * Permissions Routes
+   */
+  Route::group(['middleware'=>['auth:admin','checkPermission']],function(){   
+    Route::livewire('/Return/Add','admin.returns.add')->name('admin.returns.add');
+    Route::livewire('/Return/Edit/{id}','admin.returns.edit')->name('admin.returns.edit');
+    Route::livewire('/Return/Response/{id}','admin.returns.response')->name('admin.returns.response');
+    Route::livewire('/Return/Comments/{id}','admin.returns.comments')->name('admin.returns.comment');
+    Route::livewire('/Entity/Users/{id}','admin.entity.users.index')->name('can_entity_user');
+    Route::livewire('/Entity/Users/Add/{id}','admin.entity.users.add')->name('can_entity_user_add');
+    Route::livewire('/Entity/Users/Edit/{id}','admin.entity.users.edit')->name('can_entity_user_edit');
+    Route::livewire('/Entity/Companies','admin.entity.company')->name('can_entity_company');
+    Route::livewire('/Entity/Add','admin.entity.add')->name('can_entity_add');
+    Route::livewire('/Entity/Edit/{id}','admin.entity.edit')->name('can_entity_edit');
+    Route::livewire('/Suppliers/Pending','admin.suppliers.pending')->name('can_suppliers_pending');
+    Route::livewire('/gazzate/Add','admin.gazzate.add')->name('can_gazzate_add');
+    Route::livewire('/gazzate/Edit/{id}','admin.gazzate.edit')->name('can_gazzate_edit');
+    Route::livewire('/gazzate/Show/{id}','admin.gazzate.show')->name('can_gazzate_show');
+    Route::livewire('/Suppliers/Show/{id}','admin.suppliers.show')->name('can_view_suppliers');
+    Route::livewire('/Suppliers/Assign/{id}','admin.suppliers.assign')->name('can_assign_supplier_jobs');
+    Route::post('/Statement/Import','importController@store')->name('can_import_statement');
+    Route::get('/Gazzate/Export/{id}','exportController@export')->name('can_export_gazzate');
+    Route::livewire('/gazzate/add','admin.gazzate.add')->name('can_add_gazzate');  
+    Route::livewire('/role/add','admin.roles.add')->name('can_add_role');
+    Route::livewire('/Rtgs/Show/{id}','admin.rtgs.show')->name('can_view_rtgs');
+    Route::livewire('/Rtgs/Edit/{id}','admin.rtgs.edit')->name('can_edit_rtgs');
+    Route::livewire('/Rtgs/Comment/{id}','admin.rtgs.comment')->name('can_comment_rtgs');
+    Route::livewire('/Rtgs/Process/{id}','admin.rtgs.process')->name('can_process_pending_rtgs');
+    Route::livewire('/role/edit/{id}','admin.roles.edit')->name('can_edit_role');
+    Route::livewire('/role/assign/{id}','admin.roles.assign')->name('can_assign_role');
+    Route::livewire('/role/delete/{id}','admin.roles.delete')->name('can_remove_role');
+    Route::livewire('/user/add','admin.users.add')->name('can_add_user');
+    Route::livewire('/user/edit/{id}','admin.users.edit')->name('can_edit_user');
+    Route::livewire('/user/delete/{id}','admin.users.block')->name('can_remove_user');
+    Route::livewire('/module/add','admin.modules.add')->name('can_add_module');
+    Route::livewire('/module/edit/{id}','admin.modules.edit')->name('can_edit_module');
+    Route::livewire('/module/delete/{id}','admin.modules.delete')->name('can_remove_module');
+    Route::livewire('/submodules/view/{id}','admin.submodules.index')->name('can_view_submodule');
+    Route::livewire('/submodule/add/{id}','admin.submodules.add')->name('can_add_submodule');
+    Route::livewire('/submodule/edit/{id}','admin.submodules.edit')->name('can_edit_submodule');
+    Route::livewire('/submodule/delete/{id}','admin.submodules.delete')->name('can_remove_submodule');
+    Route::livewire('/permissions/view/{id}','admin.permissions.index')->name('can_view_permissions');
+    Route::livewire('/permissions/add/{id}','admin.submodules.permissions.add')->name('can_add_permissions');
+    Route::livewire('/permissions/edit/{id}','admin.submodules.permissions.edit')->name('can_edit_permissions');
+    Route::livewire('/permissions/delete/{id}','admin.permissions.delete')->name('can_delete_permissions');
+    Route::livewire('/sections/add','admin.sections.add')->name('can_add_section'); 
+    Route::livewire('/sections/edit/{id}','admin.sections.edit')->name('can_edit_section');
+    Route::livewire('/sections/delete/{id}','admin.sections.delete')->name('can_remove_section');
+    Route::livewire('/category/add','admin.category.add')->name('can_add_category');
+    Route::livewire('/category/edit/{id}','admin.category.edit')->name('can_edit_category');
+    Route::livewire('/category/delete/{id}','admin.category.delete')->name('can_remove_category');
+    Route::livewire('/accounttype/add','admin.accounttype.add')->name('can_add_accounttype');
+    Route::livewire('/accounttype/edit/{id}','admin.accounttype.edit')->name('can_edit_accounttype');
+    Route::livewire('/accounttype/delete/{id}','admin.accounttype.delete')->name('can_remove_accounttype');
+    Route::livewire('/documents/add','admin.documents.add')->name('can_add_document');
+    Route::livewire('/document/edit/{id}','admin.documents.edit')->name('can_edit_document');
+    Route::livewire('/document/delete/{id}','admin.documents.delete')->name('can_remove_document');
+    Route::livewire('/currency/add','admin.currency.add')->name('can_add_currency');
+    Route::livewire('/currency/edit/{id}','admin.currency.edit')->name('can_edit_currency');
+    Route::livewire('/currency/delete/{id}','admin.currency.delete')->name('can_remove_currency');
+    Route::livewire('/exchange/add','admin.exchange.add')->name('can_add_exchange');
+    Route::livewire('/exchange/edit/{id}','admin.exchange.edit')->name('can_edit_exchange');
+    Route::livewire('/exchange/delete/{id}','admin.exchange.delete')->name('can_remove_exchange');
+    Route::livewire('/general/add','admin.general.add')->name('can_add_general');
+    Route::livewire('/general/edit/{id}','admin.general.edit')->name('can_edit_general');
+    Route::livewire('/general/delete/{id}','admin.general.delete')->name('can_remove_general');
+    Route::livewire('/item/add','admin.items.add')->name('can_add_item');
+    Route::livewire('/item/edit/{id}','admin.items.edit')->name('can_edit_item');
+    Route::livewire('/item/delete/{id}','admin.item.delete')->name('can_remove_item');
+    Route::livewire('/fees/supplier/add','admin.fees.supplier.add')->name('can_add_fees_supplier');
+    Route::livewire('/fees/supplier/edit/{id}','admin.fees.supplier.edit')->name('can_edit_fees_supplier');
+    Route::livewire('/fees/supplier/delete/{id}','admin.fees.supplier.delete')->name('can_remove_fees_supplier');
+    Route::livewire('/fees/contract/add','admin.fees.contract.add')->name('can_add_fees_contract');
+    Route::livewire('/fees/contract/edit/{id}','admin.fees.contract.edit')->name('can_edit_fees_contract');
+    Route::livewire('/fees/contract/delete/{id}','admin.fees.contract.delete')->name('can_remove_fees_contract');
+    Route::livewire('/fees/establishment/add','admin.fees.establish.add')->name('can_add_fees_establish');
+    Route::livewire('/fees/establishment/edit/{id}','admin.fees.establish.edit')->name('can_edit_fees_establish');
+    Route::livewire('/fees/establishment/delete/{id}','admin.fees.establish.delete')->name('can_remove_fees_establish');    
+    Route::livewire('/fees/spoc/add','admin.fees.spoc.add')->name('can_add_fees_spoc');
+    Route::livewire('/fees/spoc/edit/{id}','admin.fees.spoc.edit')->name('can_edit_fees_spoc');
+    Route::livewire('/fees/spoc/delete/{id}','admin.fees.spoc.delete')->name('can_remove_fees_spoc');
+    Route::livewire('/settings/cap/add','admin.cap.add')->name('can_add_cap');
+    Route::livewire('/settings/cap/{id}','admin.cap.edit')->name('can_edit_cap');
+    Route::livewire('/pclass/add','admin.pclass.add')->name('can_add_pclass');
+    Route::livewire('/pclass/edit/{id}','admin.pclass.edit')->name('can_edit_pclass');
+    Route::livewire('/classification/add','admin.classification.add')->name('can_add_classification');
+    Route::livewire('/classification/edit/{id}','admin.classification.edit')->name('can_edit_classification');
+    Route::livewire('/threshold/add','admin.threshold.add')->name('can_add_threshold');
+    Route::livewire('/threshold/edit/{id}','admin.threshold.edit')->name('can_edit_threshold');
+    Route::livewire('/customer/add','admin.customer.add')->name('can_add_customer');
+    Route::livewire('/customer/edit/{id}','admin.customer.edit')->name('can_edit_customer');
+    Route::livewire('/customer/show/{id}','admin.customer.show')->name('can_show_customer');
+    Route::livewire('/customer/add/{id}','admin.customer.add')->name('can_add_customer');    
+    Route::livewire('/SupplierSummary/{from}/{to}','admin.suppliers.summary')->name('can_suppliers_summary');
+
+
+   
+  });
+
+  /** Module Navigation */
+      Route::group(['middleware'=>['auth:admin','checkModule']],function(){ 
+         Route::livewire('/navigation/{id}','admin.submenu')->name('admin.submenu');
+      });
+  });
+});

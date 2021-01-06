@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>PRAZ</title>
+
+   
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <livewire:styles>
+
+
+</head>
+
+<body>
+<nav class="bg-white flex justify-between items-center">
+    <div>
+<a class="navbar-brand" href="#"><img alt="PRAZ"  class="h-20" src="{{asset('img/logo.png')}}"></a>
+        <button><i class="navbar-toggler-icon"></i></button>
+    </div>
+
+                  <ul class="navbar-nav ml-auto mt-2 mt-lg-0">         
+        
+            @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+                        @else
+                        <livewire:nav-alert />
+                        <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Welcome: {{ Auth::user()->name }} {{ Auth::user()->surname }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('password') }}">
+                                        {{ __('Change Password') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('contacts') }}">
+                                        {{ __('Update Company Contacts') }}
+                                    </a>
+                                </div>
+                            </li>
+                        @endguest
+          </ul>
+      
+      </nav>
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-sidebar border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading"></div>
+      <div class="list-group list-group-flush">
+      @guest
+
+      @else
+        @if(Auth::User()->type==='SUPPLIER')
+        <a href="{{route('home')}}" class="list-group-item list-group-item-action list-item ">Dashboard</a>
+        <a href="{{route('payments')}}" class="list-group-item list-group-item-action list-item">Payments</a>
+        <a href="{{route('invoices')}}" class="list-group-item list-group-item-action list-item">Invoices</a>
+        <a href="{{route('transfers')}}" class="list-group-item list-group-item-action list-item">Bank Transfers</a>
+        <a href="{{route('documents')}}" class="list-group-item list-group-item-action list-item">Company Documents</a>
+        <a href="{{route('users')}}" class="list-group-item list-group-item-action list-item">Users</a>
+        <a href="{{route('tenderlist')}}" class="list-group-item list-group-item-action list-item">Procurement Notices <livewire:countnotice/> </a>
+        <a href="{{route('awardlist')}}" class="list-group-item list-group-item-action list-item">Award Notices <livewire:countawards/></a>
+
+        @else
+        <a href="{{route('entity')}}" class="list-group-item list-group-item-action list-item ">Dashboard</a>
+        <a href="{{route('tenders')}}" class="list-group-item list-group-item-action list-item">Tenders</a>
+        <a href="{{route('awards')}}" class="list-group-item list-group-item-action list-item">Award Notices</a>
+        <a href="{{route('plans')}}" class="list-group-item list-group-item-action list-item">Procurement Plans</a>
+        <a href="{{route('budgets')}}" class="list-group-item list-group-item-action list-item">Budgets</a>
+        <a href="{{route('returns')}}" class="list-group-item list-group-item-action list-item">Procurement Returns</a>
+        @endif
+     @endguest
+      </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+     
+
+      <div class="container-fluid">
+      @yield('content')
+       </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <livewire:scripts>
+ 
+
+</body>
+
+</html>

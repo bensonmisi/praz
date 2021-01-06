@@ -1,0 +1,262 @@
+<div>
+<div class="row justify-content-center mt-3">
+    <div class="col-sm-12 col-md-12">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('entity')}}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Award Notices</li>
+        </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-12">
+              @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            @if (session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+
+            @if($showlist)
+        <div class="card">
+            <div class="card-header">
+                <h5>Award Notices <a href="{{route('tender_add')}}" class="btn btn-primary float-right">Add Tender</a></h5>
+            </div>
+            <div class="card-body">
+            <div class="form-group text-center">
+                <div wire:loading>
+                    <div class="text-center">
+                    <h4 class="text-primary">Processing ...
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                </div>
+                    </h4>
+                    </div>
+                        
+                </div>
+                    </div>
+                    <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tender Number</th>
+                            <th>Close Date</th>
+                            <th>Bid Value</th>
+                            <th>Awards</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($notices as $notice)
+                        <tr>
+                            <td><a href="{{route('tender',$notice->id)}}">{{$notice->tendernumber}}</a></td>
+                            <td>{{$notice->close_date}}</td>
+                            <td>{{$notice->currency->name}}{{$notice->bidvalue}}</td>
+                            <td>
+                            <table class="table table-bordered">
+                            <thead>
+                             <tr>
+                             <th>Company Name</th>
+                             <th>Product</th>
+                             <th>Quantity</th>
+                             <th>Value</th>
+                             <th>Status</th>
+                             <th>
+                                 
+                             </th>
+                             </tr>
+                            </thead>
+
+                            <tbody>
+                                @forelse($notice->awards as $award)
+                                <tr>
+                                    <td>
+                                        {{$award->company->name}}
+                                    </td>
+                                    <td>
+                                        {{$award->description}}
+                                    </td>
+                                    <td>
+                                        {{$award->quantity}}
+                                    </td>
+                                    <td>
+                                    {{$award->currency->name}}
+                                        {{$award->value}}
+                                    </td>
+                                    <td>
+                                        {{$award->status}}
+                                        @if($award->status==='CANCELLED')
+                                        <br/>
+                                         <small class="text-danger"><i>{{$award->comment}}</i></small>
+                                        @endif
+                                    </td>
+                                    <td>
+                                    @if($award->status==='AWARDED')
+                                    <button class="btn btn-danger" wire:click='cancelAward({{$award->id}})'>Cancel</button>
+                                    @endif
+                                </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="text-danger text-center">No Company Awarded</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                            </table>
+                            
+                            </td>
+                            <td>
+                               
+                                    <button class="btn btn-success" wire:click="awardForm({{$notice->id}})">Award</button>
+                               
+                            </td>
+                        </tr>
+
+                        @empty
+                        <tr><td colspan="4" class="text-danger text-center">No Procurement Notices Uploaded As Yet</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+                </div>
+
+                
+            </div>
+            @elseif($cancelShow)
+            <div class="card">
+                <div class="card-header"><h4>Award Notice Cancellation</h4></div>
+                <div class="card-body">
+             <h5 class="alert alert-danger">You are about to cancel an award notice. Please check the details below before you continue</h5>
+             <div class="table-responsive-sm">
+                           <table class="table table-bordered">
+                            <tr>
+                                <th>name</th><td>{{$award->company->name}}</td>
+                            </tr>
+                               <tr> <th>Product</th><td>{{$award->description}}</td></tr>
+                                <tr><th>Quantity</th><td>{{$award->quantity}}</td></tr>
+                               <tr> <th>Award Date</th><td>{{$award->created_at}}</td></tr>
+                        </table>
+            </div>
+            <div class="form-group">
+                                <label>Reasaon for Cancelation</label>
+                            <textarea class="form-control @error('reason') is-invalid @enderror" id="reason"  wire:model.lazy="reason"></textarea>
+                              
+                            @error('reason') 
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                    </div>
+                  <div class="form-group">
+                      <button class="btn btn-danger" wire:click='cancel'>Back</button>
+                      <button class="btn btn-success" wire:click='confirmCancelation'>Continue</button>
+                  </div>
+                </div>
+            </div>
+            
+            @else
+
+          <div class="card">
+              <div class="card-header">
+                  <h5>Award Notice</h5>
+              </div>
+              <div class="card-body">
+              <div class="form-group">
+                                <label for="code">Enter Supplier Certificate Number (<b class="text-danger">Press Enter</b>)</label>
+                                <input type="text" name="code" id="code" class="form-control @error('code') is-invalid @enderror" wire:model="code" wire:keydown.enter="search"/>
+
+                            @error('code') 
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+              </div>
+
+                @if($supplier)
+                  <div class="table-responsive-sm">
+                      <h5 class=" alert alert-warning">Please cross check the company details below. if the details below do not match the company you intend to award the tender. Please contact PRAZ as this might be a forged certificate</h5>
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>name</th><td>{{$supplier->company->name}}</td>
+                            </tr>
+                               <tr> <th>City</th><td>{{$supplier->company->city}}</td></tr>
+                                <tr><th>Country</th><td>{{$supplier->company->country}}</td></tr>
+                               <tr> <th>Category Code</th><td>{{$supplier->category->code}}</td></tr>
+                               <tr> <th>Category Name</th><td>{{$supplier->category->name}}</td></tr>
+                        </table>
+                   </div>
+
+                   <div class="form-group">
+                                <label>Currency</label>
+                            <select class="form-control @error('currency') is-invalid @enderror" id="currency"  wire:model.lazy="currency">
+                                @forelse($currencylist as $current)
+                                    <option value="{{$current->id}}">{{$current->name}}</option>
+                                @empty
+
+                                @endforelse
+                            </select>
+
+                            @error('currency') 
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                    </div>
+
+                    <div class="form-group">
+                                <label>Contract Value</label>
+                            <input type="text" class="form-control @error('value') is-invalid @enderror" id="value"  wire:model.lazy="value"/>
+                              
+                            @error('value') 
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                            </div>
+
+                    <div class="form-group">
+                                <label>Product/Service Description</label>
+                            <input type="text" class="form-control @error('product') is-invalid @enderror" id="product"  wire:model.lazy="product"/>
+                              
+                            @error('product') 
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                    </div>
+                    <div class="form-group">
+                                <label>Quantity</label>
+                            <input type="text" class="form-control @error('quantity') is-invalid @enderror" id="quantity"  wire:model.lazy="quantity"/>
+                              
+                            @error('quantity') 
+                            <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
+                    </div>
+                  <div class="form-group">
+                      <button class="btn btn-danger" wire:click='cancel'>Cancel</button>
+                      <button class="btn btn-success" wire:click='award'>Award</button>
+                  </div>
+
+                @endif
+
+
+             
+              </div>
+          </div>
+
+            @endif
+
+            
+        </div>
+    </div>
+</div>
+
+</div>

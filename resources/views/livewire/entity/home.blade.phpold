@@ -1,0 +1,72 @@
+<div>
+<h5 class="mt-4">Welcome: {{Auth::user()->company->name}} <a href="{{route('tender_add')}}" class="btn btn-primary float-right">Add Tender</a></h5>
+<small class="text-muted">PRAZ NUMBER: {{Auth::user()->company->regnumber}}</small><br/>
+
+<small class="text-muted">PROCUREMENT CLASS: {{Auth::user()->company->pclass->pclass->name}}</small>
+<hr/>
+<div class="row">
+    <div class="col-sm-12 col-md-8">
+       @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif            
+            @if (session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+
+            <div class="card">
+            <div class="card-header">
+                <h6>Tenders</h6>
+            </div>
+            <div class="card-body">
+            <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Tender Number</th>
+                            <th>Close Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($notices as $notice)
+                        <tr>
+                        <td><a href="{{route('tender',$notice->id)}}">{{$notice->tendernumber}}</a></td>
+                            <td>{{$notice->close_date}}</td>
+                            <td>{{$notice->status}}</td>
+                        </tr>
+
+                        @empty
+                        <tr><td colspan="4" class="text-danger text-center">No Procurement Notices Uploaded As Yet</td></tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div> 
+            </div>
+            </div>
+    </div>
+    <div class="col-sm-12 col-md-4">
+    <div class="card">
+               <div class="card-header"><h5>Notifications  @if(count(Auth::user()->unreadNotifications)>0)<button wire:click='read' class="btn btn-sm btn-primary float-right">Mark As Read</button> @endif</h5></div>
+               <div class="list-group list-group-flush">
+               @forelse(Auth::user()->unreadNotifications as $notification)
+                <a href="#" class="list-group-item list-group-item-action @if($notification->data['notifiable_type']==='SUCCESS') text-success @endif ">
+                    
+                    <h5 class="mb-1">{{$notification->data['notifiable_type']}}</h5>
+                    <p><small>{{$notification->created_at->diffForHumans()}}</small></p>
+                    <p class="mb-1"><small>{{$notification->data['data']}}</small></p>
+                    
+                  
+                </a>
+                @empty
+
+                <p class="text-danger text-center">No Notifications</p>
+                @endforelse
+               </div>
+                </div>
+    </div>
+</div>
+</div>

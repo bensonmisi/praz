@@ -1,0 +1,182 @@
+
+<div>
+<div class="row justify-content-center mt-3">
+    <div class="col-sm-12">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('admin.home')}}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{route('admin.customer')}}"><i class="fas fa-user"></i> Company</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Show</li>
+        </ol>
+        </nav>
+    </div>
+</div>
+
+
+<div class="row justify-content-center">
+    <div class="col-sm-12">
+    <livewire:message/>
+        <div class="card">
+            <div class="card-header">
+                <h4>Company</h4>
+                <a href="{{route('can_edit_customer',$customer->id)}}" class="btn btn-success float-right">Edit</a>
+            </div>
+            <div class="card-body">
+            <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                            <tr><th>Name</th><td>{{$customer->name}}</td></tr>
+                            <tr><th>Regnumber</th><td>{{$customer->regnumber}}</td></tr>
+                            <tr><th>Country</th><td>{{$customer->country}}</td></tr>
+                            <tr><th>City</th><td>{{$customer->city}}</td></tr>
+                            @if(!is_null($customer->contacts))
+                            <tr><th>Phones</th><td>{{$customer->contacts->phones}}</td></tr>
+                            <tr><th>emails</th><td>{{$customer->contacts->emails}}</td></tr>
+                            <tr><th>address</th><td>{{$customer->contacts->address}}</td></tr>
+                            @endif
+                        </table>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row justify-content-center mt-2">
+ 
+    <div class="col-sm-12">
+    <div class="card">
+            <div class="card-header"><h4>Users</h4><a href="{{route('can_add_customer',$customer->id)}}" class="btn btn-success float-right">Add User</a></div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                     <table class="table table-bordered">
+                         <tr><th>Name</th><th>Email</th><th>Code</th><th>Status</th><th>Created At</th><th></th></tr>
+                         @forelse($customer->users as $user)
+                            <tr>
+                                <td>{{$user->name}} {{$user->surname}}</td>
+                                <td>{{$user->email}}</td>
+                                <th>{{$user->authcode}}</th>
+                                <td>{{$user->status}}</td>
+                                <td>{{$user->created_at}}</td>
+                                <td><button class="btn btn-primary" wire:click='resetPWD({{$user->id}})'>Reset</button></td>
+                            </tr>
+                         @empty
+                         <tr><td colspan="3" class="text-center text-danger">No users found</td></tr>
+                         @endforelse
+                     </table>   
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+      
+    <div class="row justify-content-center mt-2">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header"><h4>Company Documents</h4></div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <tr><th>Locality</th><th>Name</th></tr>
+                      @if(count($customer->documents) >0)
+                              @forelse($customer->documents as $doc)
+                               <tr>
+                                   <td>{{$doc->locality}}</td>
+                                   <td>{{$doc->name}}</td>
+                               </tr>
+                              @empty
+
+                              @endforelse
+                      @endif
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="row justify-content-center mt-2">
+    <div class="col-sm-12">
+    <div class="card">
+            <div class="card-header"><h4>Supplier Registrations</h4></div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <tr><th>Code</th><th>Year</th><th>Status</th></tr>
+                      @forelse($customer->registrations as $reg)
+                       <tr>
+                           <td>{{$reg->category->code}}:{{$reg->category->name}}</td>
+                           <td>{{$reg->expire_year}}</td>
+                           <td>{{$reg->status}}</td>
+                       </tr>
+                      @empty
+                       <tr><td colspan="3" class="text-danger text-center">No Supplier Registration</td></tr>
+                      @endforelse
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+          
+    <div class="row justify-content-center mt-2">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header"><h4>Online Payments</h4></div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                       <table class="table table-bordered">
+                           <tr><th>Created At</th><th>Invoice Number</th><th>Type</th><th>Mode</th><th>Amount</th><th>Status</th><th></th></tr>
+                           @forelse($customer->onlinepayments as $pay)
+                            <tr>
+                            <td>{{$pay->created_at}}</td>
+                                <td>{{$pay->invoice_number}}</td>
+                                <td>{{$pay->type}}</td>
+                                <td>{{$pay->mode}}</td>
+                                <td>{{$pay->amount}}</td>
+                                <td>{{$pay->status}}</td>
+                                <td>
+                                @if($pay->status =='PENDING' || $pay->status =='sent' || $pay->status =='created' )
+                              <button class="btn btn-primary btn-sm" wire:click='checkPayment({{$pay->id}})'>Check Payment</button>
+                                  @endif
+                                </td>
+                                
+                            </tr>
+                           @empty
+                            <tr><td class="text-center text-danger" colspan="6"> No Payments Found</td></tr>
+                           @endforelse
+                       </table> 
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    </div>
+    <div class="row justify-content-center mt-2">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header"><h4>RTGS Payments</h4></div>
+            <div class="card-body">
+                <div class="table-responsive-sm">
+                       <table class="table table-bordered">
+                           <tr><th>Created At</th><th>Invoice Number</th><th>Type</th><th>Amount</th><th>Status</th><th>Comment</th></tr>
+                           @forelse($customer->rtgs as $pay)
+                            <tr>
+                            <td>{{$pay->created_at}}</td>
+                                <td>{{$pay->invoice_number}}</td>
+                                <td>{{$pay->type}}</td>
+                                <td>{{$pay->amount}}</td>
+                                <td>{{$pay->status}}</td>
+                                <td>
+                                {{$pay->comment}}
+                                </td>
+                                
+                            </tr>
+                           @empty
+                            <tr><td class="text-center text-danger" colspan="6"> No Payments Found</td></tr>
+                           @endforelse
+                       </table> 
+                </div>
+            </div>
+        </div>
+    </div>
+  
+    </div>
+
+</div>

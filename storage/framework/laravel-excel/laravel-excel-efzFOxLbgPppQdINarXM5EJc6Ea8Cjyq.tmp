@@ -1,0 +1,226 @@
+code,name
+GA003," ANIMAL FEED, Premixes and Additives"
+,
+GA001," Agricultural Seeds, Fertilizers , Plant Nutrients And Herbicides"
+,
+GA002,Arms and Ammunition
+GB001,"Bedding (Blankets, Sheets, etc..)"
+GB004,"Bedclothes, Table And Kitchen Linen And Towels"
+,
+GB002,Bulky Water Supply
+GB003,"Butchery (beef, pork, fish, poultry products etc)"
+GC001,Canvas & Tarpaulins
+GC002,"Catering Equipment, Accessories & Spares"
+GC003,Cleaning Chemicals
+GC004,Coal
+GC005,"Communication Radios, Handsets, Cellular Mobile Phones, Facsimile Machines  and Accessories"
+GC006,"Computers, Printers, Photocopiers, Networking Equipment and Accessories"
+GC007,"Construction Materials (Aggregates, Road Marking Materials, Bitumen, Reinforcing Steel, Meshwire etc..)"
+GC008,Corporate Gifts
+GC011, Clothing
+,
+,
+GU005, Combined with GC011
+GC009, Combined with GC011
+GC010,"Chemical Spraying Equipment (Knapsack Sprayers, Boom Sprayers etc)"
+GE001,"Electrical Products: Cables and Materials, Power Back-Up Equipment, Transformers, Standby Generators, Consumables & Accessories"
+GF001,Fibre Optic Cable and Accessories
+GF002,Fire Fighting Equipment
+GF003,Fuels & Lubricants
+GF004,"Furniture, Office Equipment, Upholstery, Carpeting & Curtaining Products"
+GG001, Gas (Industrial and Domestic) and Elements
+GG002,"Grain (Maize, Rice Wheat etc )"
+GG003,Groceries and Provisions
+GH001,"Heavy Duty Catering Equipment (Industrial, Oil Jacketed Pots etc)"
+GI001 (GA004),Agricultural And Forestry And Landscape Machinery And Equip
+,
+,
+,
+,
+GL001,Limestone
+GM001,"Malaria and Tsetse Control Chemicals, Materials and related Vector Control Products"
+GM002,Medical and Laboratory Equipment and Accessories
+GM003,"Motor Vehicle Spares (heavy & light duty), Pneumatic Tyres, Tubes and Accessories"
+GM004," Mining Equipment, Consumables and Accessories (castings - mill balls, manhole covers, short collar joints, 3 legged ports etc)"
+GM005,Musical Instruments And Parts And Accessories
+GN001,Non-Motorized Cycles
+GN007,New Motor Vehicles
+GN005,New Plant and Equipment
+ GD001,"Data, Voice, Multimedia Networking Equipment Or Platforms And Accessories."
+,
+,
+GN006,Non-Agricultural Herbicides
+GO001,Ordinance Requirements
+GO002,"Outdoor, Camping & Hunting Equipment and related services"
+GP001,"Packaging Materials ,Equipment & Related Products"
+GP002,Paints And Primers And Finishes And Accessories
+GP003,"Printing And Publishing Equipment, Spares, Sundries "
+,
+GP004,"Pharmaceuticals   (a) Medical Drugs, Supplies and Consumables"
+GP005,Protective Clothing
+GP006,"PVC, HDPE, LDPE  Pipes and  Fittings"
+GS001, Saddlery And Harness Goods
+GS002,"Security, Tracking System, Safety and Access Control Products (CCTVs, Vehicle Security, Alarms.) and Accessories"
+GS003," Sewing Machines, Spares and Accessories"
+GS004,"Renewable Energy Solutions (Solar, Bio gas , Wind, Hydro, Petrochemical etc)"
+GS005,Sports Wear and Equipment
+GS006,Stationery Products and Paper Raw Materials
+GT001,Timber and Boards
+GT002,Tools and Hardware
+GU001,Used Heavy Motor Vehicles
+GU002,Used Light Motor Vehicles
+GU003,Used Motor Cycles
+GU004,Used Plant and Equipment
+GV001,"Veterinary Drugs, Vaccines and Chemicals"
+GV002," Fresh Farm Produce(Vegetables , Fruits, Dairy, Poultry And Aquaculture Products )"
+GW001,Water Treatment Chemicals
+GW002,"Weighbridges, Scales and Accessories"
+PBG001,General
+GP004B,Pharmaceuticals medical supplies and consumables excluding drugs
+GF003B, Lubricants And Oils And Greases And Anti Corrosives
+PBS001, Specialised categories
+ GA00,Aircraft
+,
+ GC001,Containers And Storage
+,
+,
+ GD002,"Domestic Appliances, Kitchenware And Kitchen Supplies"
+,
+ GF003,"Fabricated Structural, Sheet, Pipe, Tube, Plate, Pipe Assemblies"
+,
+,
+,
+,
+,
+,
+,
+ GF004,Footwear
+ GH004,Horticulture
+,
+ GH005,Hydraulic And Pneumatic Machinery And Equipment
+ GI003,"Industrial Laundry And Dry Cleaning Equipment,"
+ GM002,Measuring And Observing And Testing Instruments
+,
+,
+ GM00,Medical Sterilization Products 
+ GP00,Photographic And Recording Media
+ GP00,Photographic Or Filming Or Video Equipment
+ GP00,Prefabricated Structures
+ GP00,"Pre-paid Meters (electricty, Water etc)"
+ GR00,"Railway And Tramway Machinery, Equipment And Spares"
+,
+ GS00,Sanitary Facilities & Services
+ GV00,Vehicle Bodies And Trailers
+SA001,Air Conditioners and Refrigerator Maintenance Services
+SA002,Architectural Services 
+SA005,Actuarial Consultancy Services 
+SA003,Auctioneering Services
+SA004,Audit Services (External)
+SB002, Mining Services
+SB003,"Borehole Siting, Drilling, Casing, and Repairs"
+ST004, Combined with SB004
+SB004,"Building Construction, Support, Maintenance And Repair Services."
+SC008, Combined with SB005
+SB005, Cargo And Mail Transport and Removal Services
+SB006, Burial and Funeral Services (including Pauper Burial)
+SC001, Cable Trenching
+SC002,Restaurants And Catering Services
+SC003," Cleaning ,Sanitation And  Janitorial Services"
+SC004,Cloud Seeding
+SC005,"Computers, Printers & Networking Installations and General Office Equipment Maintenance & Repair Services"
+SC006,"Construction and Civil Works (buildings, dams, roads etc) – (General Building Construction)"
+SC007,Construction of Overhead Electricity Power Transmission
+SC009,Custodial Services (archiving & related services)
+SC010,Customs Clearance & related Import Export Services
+SD001,Debt Collection Services 
+SD002,Dry Cleaning Services
+SE001,Engineering Services
+SE002,Environmental Management
+SE003,"Event Management, Exhibition Facilities, Stand Building and Venue Hire (new) "
+SE004,"Entertainment Services (dance groups, disco, bands, master of ceremonies, disk jockeys, and hire of related equipment)  "
+SF001,Fencing Services
+SF002,Fire Fighting Equipment Maintenance
+SF003,Forensic Services
+SF004,Fumigation Services
+SG001,Geomatics (surveying and mapping).
+SH001,Heavy Vehicle Maintenance
+SH002,"Hire of Construction Equipment (Tip Trucks, Bulldozers etc.) "
+SH003,"Hire of Tents, Outdoor & Camping Equipment"
+SH004,"Hotels, Lodging And Conference Facilities"
+SH005, Human Resources Services
+SI002,"Installation, Repair & Maintenance of Electrical Equipment, Generators , Power Back-Up Equipment & Miscellaneous Electrical Repair Works"
+SI003,"Installation, Repair & Maintenance of Safety, Loss Control & related Access Control Systems (CCTVs, Vehicle Security, Alarms etc.)"
+SI004,"Installation, Repair & Maintenance of Irrigation Equipment and Accessories"
+SI005,"Installation, Repair & Maintenance of Medical and Laboratory Equipment and Accessories"
+SI006,Insurance and Brokerage Services
+SL001,"Land Scaping, Gardening and Florist"
+SL002,Land Surveyors 
+SL003,Legal Services
+SL004,Lifts and Elevator Maintenance
+SL005,Light Motor Vehicle Maintenance
+SM001,MANAGEMENT ADVISORY and General Consultancy SERVICES
+,
+,
+SM002,
+SM003,
+SM004," Media Production (filming, photography etc – Photographic Services)"
+SM005, Milling (grain etc)
+SP001,Panel Beating
+ST005,Transportation Repair Or Maintenance Services
+,
+SP002,"Partitioning , Shop and Household-fittings"
+SP003, Passenger Transportation
+SP004,Plant and Equipment Maintenance
+SP005,Plumbing & Related (Jobbing) Services
+ST003, Combined with SR004
+SR004, Reproduction Services
+SP007,Private Security Guards & CIT Services
+SP008, Project Management
+SP009, Property Evaluation and Estate Agents Services
+SP010,Property Development (Residential and Commercial) new
+SQ001,Quantity Surveying 
+SR001,Repair & Maintenance of Heavy Duty Catering Equipment 
+SR002,"Repair, Maintenance & Service of Sewing Machines and Accessories "
+SR003,Road Maintenance Services
+SS001,Signage and Branding Services
+SS002,Software
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+,
+SS003,Storage and Warehousing
+ST001,Tailoring Services (Cut-Make & Trim) 
+ST002,Telecommunications Media And Networking Services
+,
+,
+,
+,
+,
+ ST006,Timber Processing and Milling Services
+SV001,
+SW001, Waste Collection and Management (Refuse Disposal And Treatment)
+,
+,
+ SB005,Broadcasting Services
+ SE002,Earth Science Services
+ SF002,Forestry & Sawmilling
+,
+ SM001,"Machining, Welding And Processing Services"
+,
+ SW002,Water And Sewer Engineering And Utilities
+ SW003,Water Resources Development And Oversight
+,

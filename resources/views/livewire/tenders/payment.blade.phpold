@@ -1,0 +1,158 @@
+<div>
+<div class="row justify-content-center mt-3">
+    <div class="col-sm-12 col-md-10">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{route('tenderlist')}}"><i class="fas fa-folder"></i> Procurement Notices</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Payment</li>
+        </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-10">
+              @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            @if (session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+
+            <div class="form-group text-center">
+                <div wire:loading>
+                    <div class="text-center">
+                    <h4 class="text-primary">Processing ...
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                </div>
+                    </h4>
+                    </div>
+                        
+                </div>
+                    </div>
+
+           @if($showinvoice)
+            <div class="card">
+                <div class="card-body">
+                <div class="table-responsive-sm">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr><th>Description</th><th>Cost</th></tr>
+                    </thead>
+                    <tbody>
+                     
+                        <tr><td>
+                            {{$invoice->description}}<br/>
+                            <small><i>{{$tender->tendernumber}}</i></small><br/>
+                            <small><i>{{$tender->description}}</i></small><br/>
+                            <small><i>{{$tender->company->name}}</i></small>
+                        </td>
+                        <td>
+                        {{$invoice->currency->name}} {{$invoice->cost}}<button class="btn btn-sm btn-default" wire:click="deleteItem({{$invoice->id}})"><i class="fas fa-times text-danger"></i></button></td>
+                       
+                    </tr>
+                       
+                       
+                        <tr><td><h5>Total Due</h5></td><td>{{$invoice->currency->name}}{{$invoice->cost}}</td></tr>
+                        <tr><td colspan="2"><b>Download Your Proforma Invoice <a href="{{route('invoice_print',$invoice->invoice_number)}}" target="_blank">(CLICK HERE)</a></b></td></tr>
+                      
+                    </tbody>
+                </table>
+                </div>
+
+                <h5>Select Preferred Payment Method</h5>
+                <hr/>
+                 <div class="row justify-content-center">
+                     @if(strtoupper(Auth::user()->company->country)==='ZIMBABWE')
+                     <div class="col-sm-12 col-md-3">
+                     <div class="card">
+                            <img src="{{asset('img/ecocash.png')}}" class="card-img-top" alt="...">
+                            <div class="card-footer">
+                                <button wire:click="paymentForm('ecocash')" class="btn btn-block btn-primary">Use Ecocash</button>
+                            </div>
+                     </div>
+
+                     </div>
+                     <div class="col-sm-12 col-md-3">
+                     <div class="card">
+                            <img src="{{asset('img/onemoney.jpg')}}" class="card-img-top" alt="...">
+                            <div class="card-footer">
+                                <button wire:click="paymentForm('onemoney')"  class="btn btn-block btn-primary">Use Onemoney</button>
+                            </div>
+                     </div> 
+                     </div>
+                     @endif
+                     @if(strtoupper(Auth::user()->company->country)!=='ZIMBABWE')
+                     <div class="col-sm-12 col-md-3">
+                     <div class="card">
+                            <img src="{{asset('img/paynow.jpg')}}" class="card-img-top" alt="...">
+                            <div class="card-footer">
+                                <a href="{{route('registration_paynow')}}" class="btn btn-block btn-primary">Use (visa,mastercard)</a>
+                            </div>
+                     </div>
+                     </div>
+                     @endif
+                     <div class="col-sm-12 col-md-3">
+                     <div class="card">
+                     <img src="{{asset('img/upload.jpg')}}" class="card-img-top" alt="...">
+                     <div class="card-footer">
+                                <a href="{{route('registration_bank')}}" class="btn btn-block btn-primary">Upload POP</a>
+                            </div>
+                     </div>  
+                     </div>
+                 </div>
+                </div>
+            </div>
+
+            @elseif($showform)
+            <div class="row justify-content-center">
+            <div class="col-sm-12 col-md-6">
+            <h4>{{$mode}} Payment</h4>
+            <div class="card">
+                <div class="card-body">
+                  
+                <div class="form-group">
+                        <label for="email">Phone Number</label>
+                        <input type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" wire:model.lazy="phone" aria-describedby="emailHelp" required>
+                        @error('phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                         @enderror
+                 </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-primary" wire:click="sendPayment">
+                                    {{ __('Submit') }}
+                                </button>                 
+
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+
+            @elseif($showconfirm)
+              <div class="card">
+                  <div class="card-header"><h5>Confirm Payment</h5></div>
+                  <div class="card-body">
+                  <p class="caption">1 PLEASE CHECK YOUR PHONE AND ENTER YOUR PIN TO AUTHORIZE THE TRANSACTION</p>
+                  <p class="caption">2 WHEN YOU HAVE AUTHORIZED THE TRANSACTION PLEASE PRESS BUTTON BELOW TO COMPLETE THE TRANSACTION</p>
+                  <p class="caption">3 IF PRESSING THE BUTTON BELOW DOES NOT COMPLETE THE TRANSACTION PLEASE DAIL Dial *151*2*4# ENTER YOUR ECOCASH PIN AND THEN PRESS THE BUTTON BELOW AGAIN</p>
+                <button class="btn btn-success btn-block" wire:click="checkpayment">Check Payment</button>
+                  </div>
+              </div>
+
+
+            @endif
+
+    </div>
+</div>
+
+</div>

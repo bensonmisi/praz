@@ -1,0 +1,121 @@
+<div>
+<div class="row justify-content-center mt-3">
+    <div class="col-sm-12 col-md-10">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('admin.home')}}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{route('admin.threshold')}}"><i class="fas fa-home"></i> Thresholds</a></li>
+            <li class="breadcrumb-item active" aria-current="page">New</li>
+        </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-6">
+         <livewire:message/>
+        <div class="card">
+            <div class="card-header">
+                <h5>New</h5>
+            </div>
+            <div class="card-body">
+            <div class="form-group text-center">
+                <div wire:loading wire:target='add'>
+                    <div class="text-center">
+                    <h4 class="text-primary">Processing ...
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                </div>
+                    </h4>
+                    </div>
+                        
+                </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Classification</label>
+                        <select class="form-control @error('pclassification') is-invalid @enderror" id="pclassification" wire:model.lazy="pclassification"  required>
+                        <option></option> 
+                        @forelse($pclassifications as $pc)
+                         <option value="{{$pc->id}}">{{$pc->name}}</option>
+                        @empty
+
+                        @endforelse
+                       </select>
+                        @error('pclassification')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                         @enderror
+                   </div>
+                   
+                   <div class="form-group">
+                        <label for="email">Class</label>
+                        <select class="form-control @error('pclass') is-invalid @enderror" id="pclass" wire:model.lazy="pclass"  required>
+                        <option></option> 
+                        @forelse($pclasses as $pc)
+                         <option value="{{$pc->id}}">{{$pc->name}}</option>
+                        @empty
+
+                        @endforelse
+                       </select>
+                        @error('pclass')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                         @enderror
+                   </div>
+                   <div class="form-group">
+                        <label for="email">Currency</label>
+                        <select class="form-control @error('currency') is-invalid @enderror" id="currency" wire:model.lazy="currency"  required>
+                        <option></option> 
+                        @forelse($currencies as $curr)
+                         <option value="{{$curr->id}}">{{$curr->name}}</option>
+                        @empty
+
+                        @endforelse
+                       </select>
+                        @error('currency')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                         @enderror
+                   </div>
+                   <div class="form-group">
+                        <label for="email">Locality</label>
+                        <select class="form-control @error('locality') is-invalid @enderror" id="locality" wire:model.lazy="locality"  required>
+                        <option></option> 
+                        <option value="local">Local</option> 
+                        <option value="foreign">Foreign</option> 
+                      
+                       </select>
+                        @error('locality')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                         @enderror
+                   </div>
+
+                    <div class="form-group">
+                        <label for="email">Value</label>
+                        <input type="text" class="form-control @error('value') is-invalid @enderror" id="value" wire:model.lazy="value"  required>
+                        @error('value')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                         @enderror
+                    </div>
+                
+                </div>
+                <div class="card-footer text-justify">
+                   <a href="{{route('admin.threshold')}}" class="btn btn-danger">Cancel</a>
+                   <button class="btn btn-primary" wire:click='add'>Submit</button>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>

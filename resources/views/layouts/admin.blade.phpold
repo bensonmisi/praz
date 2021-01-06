@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>PRAZ</title>
+
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <livewire:styles>
+
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-topnav border-bottom">
+<a class="navbar-brand" href="#"><img alt="PRAZ" style="width: 120px; height:80px;" src="{{asset('img/logo.png')}}"></a>
+        <button class="btn btn-default" id="menu-toggle"><i class="navbar-toggler-icon"></i></button>
+
+                  <ul class="navbar-nav ml-auto mt-2 mt-lg-0">         
+        
+                    @guest
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            </li>
+                            
+                        @else
+                        <li class="nav-item">
+                                <a class="btn btn-primary" href="{{ route('admin.customer') }}"><i class="fas fa-user"></i></a>
+                            </li>
+                        <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    Welcome: {{ Auth::guard('admin')->user()->name }} {{ Auth::guard('admin')->user()->surname }} <span class="caret"></span>
+                                </a>
+
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('logout') }}">
+                                        {{ __('Logout') }}
+                                    </a>
+                                    <a class="dropdown-item" href="{{ route('password') }}">
+                                        {{ __('Change Password') }}
+                                    </a>
+                                </div>
+                            </li>
+                        @endguest
+          </ul>
+      
+      </nav>
+  <div class="d-flex" id="wrapper">
+
+    <!-- Sidebar -->
+    <div class="bg-sidebar border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading"></div>
+      <div class="list-group list-group-flush">   
+        <a href="{{route('admin.home')}}" class="list-group-item list-group-item-action list-item "><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    
+                   @forelse( Auth::guard('admin')->user()->role->modules as $mod)
+                     <a class="list-group-item list-group-item-action list-item" href="{{route('admin.submenu',$mod->id)}}">
+                        <i class="{{$mod->icon}}"></i>
+                        <span>{{$mod->name}}</span>
+                      </a> 
+                   @empty
+
+                   @endforelse
+          
+       </div>
+    </div>
+    <!-- /#sidebar-wrapper -->
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+      <div class="container-fluid">
+      @yield('content')
+       </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+  </div>
+  <!-- /#wrapper -->
+
+  <!-- Bootstrap core JavaScript -->
+  <livewire:scripts>
+ 
+
+</body>
+
+</html>

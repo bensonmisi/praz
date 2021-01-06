@@ -1,0 +1,130 @@
+<div>
+<div class="row justify-content-center mt-3">
+    <div class="col-sm-12 col-md-12">
+        <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('entity')}}"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{route('tenderlist')}}"><i class="fas fa-capsules"></i> Procurement Notices</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Notice</li>
+        </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-sm-12 col-md-8">
+              @if (session()->has('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+            @if (session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
+        <div class="card">
+            @if(!is_null($tender))
+            <div class="card-header">
+                <h5>Procurement Notice</h5>
+            </div>
+            <div class="card-body">
+            <div class="form-group text-center">
+                <div wire:loading>
+                    <div class="text-center">
+                    <h4 class="text-primary">Processing ...
+                <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status">
+                        <span class="sr-only">Loading...</span>
+                </div>
+                    </h4>
+                    </div>
+                        
+                </div>
+            </div>
+             <h6>Tender Number</h6>
+             <small>{{$tender->tendernumber}}</small>
+             <hr/>
+             <h6>Close Date</h6>
+             
+             <small>{{$tender->close_date}}</small>
+             <hr/>
+             <h6>Bid Value</h6>
+             
+             <small>{{$tender->currency->name}}{{$tender->bidvalue}}</small>
+             <hr/>
+             <h6>Description</h6>
+             
+             <small>{{$tender->description}}</small>
+            
+
+
+
+              
+                </div>
+            @endif
+                
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+            <div class="card">
+                <div class="card-header">
+                   <h4>Tender Fees</h4>
+                </div>
+                <div class="card-body">
+                    @if(Carbon\Carbon::parse($tender->close_date)->gte(Carbon\Carbon::now()))
+                    <p class="alert alert-danger">Please Pay all the required tender fees in order to access  your bid bond certificate</p>
+                <table class="table table-bordered">
+                    <tr><td colspan="3"><h5>Non Refundable Fees</h5></td></tr>
+                    <tr><th>SPOC Fee</th><td>{{$tender->currency->name}}{{$spocfee}}</td>
+                    <td>
+                        @if(!$spocpaid)
+                        <a href="{{route('tenderpayment',[$tender->id,3])}}" class="btn btn-primary">Pay</a>
+                        @else
+                          <b class="text-success text-center">PAID</b>
+                        @endif
+                    </td>
+                </tr>
+                    <tr><th>Establishment Fee</th><td>{{$tender->currency->name}}{{$establishmentfee}}</td>
+                    <td>
+                    @if(!$establishmentpaid)
+                        <a href="{{route('tenderpayment',[$tender->id,2])}}" class="btn btn-primary">Pay</a>
+                    @else
+                    <b class="text-success text-center">PAID</b>
+                    @endif
+                    </td></tr>
+                      <tr><td colspan="3"><h5>Refundable Fees</h5></td></tr>
+                    <tr><th> Bid Bond</th><td>{{$tender->currency->name}}{{$tender->bidbond}}</td>
+                    <td>
+                        @if(!$bidbondpaid )
+                        @if($spocpaid && $establishmentpaid)
+                        <a href="{{route('tenderpayment',[$tender->id,1])}}" class="btn btn-primary">Pay</a>
+                        @else
+                         <small class="text-danger text-center">Please pay all non-refundable fees in order to pay your bidbond</small>
+                        @endif
+                        @else
+                        <b class="text-success text-center">PAID</b>
+                        @endif
+                    </td>
+                </tr>
+                 
+                </table>
+                @if($bidbondpaid && $spocpaid && $establishmentpaid)
+                <a href="{{route('bid_print',$tender->id)}}" target="_blank" class="btn btn-block btn-primary">Download Bidbond Receipt</a>
+                   
+                @endif
+
+                @else
+                 <h3 class="text-danger text-center">Procurement notice Closed</h3>
+                @endif
+                </div>
+            </div>
+
+      
+
+
+
+        </div>
+    </div>
+</div>
+
+</div>
