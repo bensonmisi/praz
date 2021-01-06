@@ -69,7 +69,7 @@ Route::group(['prefix'=>'auth'],function(){
     Route::post('login',[AuthController::class,'login']);
     Route::get('logout',[AuthController::class,'logout']); 
     Route::post('forgot',[AuthController::class,'resetpwd']);
-    Route::get('forgot/{email}',[AuthController::class,'forgot']);
+    Route::get('forgot/{email}',[AuthController::class,'forgot']); 
   });
 
   Route::group(['prefix'=>'auth-admin'],function(){
