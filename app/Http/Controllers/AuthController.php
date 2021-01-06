@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\accounttype;
 use App\company;
+use App\Notifications\resetlink;
+use App\password_resets;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-
+use Illuminate\Support\Str;
 class AuthController extends Controller
 {
 
@@ -142,6 +144,31 @@ class AuthController extends Controller
     public function profile(Request $request){
         $user =  User::with('company')->whereid($request->user()->id)->first();
         return response()->json(['user'=>$user,'status_code'=>200],200);
+    }
+
+    public function forgot($email){
+           $user = User::whereemail($email)->first();
+           if(!is_null($user))
+            {
+                $token = Str::random(60);
+                password_resets::create(['email'=>$email,'token'=>$token]);      
+                $user->notify(new resetlink($token));
+                return response()->json(['message'=>'Password reset link successfully send  to your email: '.$email],200);
+            }
+            else{
+                return response()->json(['message'=>'Email not found'],500);
+            }
+    }
+
+    public function resetpwd(Request $request){
+        $request->validate(['email'=>'required|email','password'=>'required |min:8|confirmed','token'=>'required']);
+        if(password_resets::where(['email'=>$request->email,'token'=>$request->token])->exists()){
+               $user = User::whereemail($request->email)->first();
+               $user->password = $request->password;
+               $user->save();
+        }else{
+            return response()->json(['message'=>'Password Reset token mismatch'],500);
+        }
     }
     function check_company($name){
         $cleanname =  preg_replace('/\s+/', '', $name);

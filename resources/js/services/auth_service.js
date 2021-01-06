@@ -20,7 +20,12 @@ export function adminlogin(data){
 export function logout(){
     return http().get('/auth/logout')
 }
-
+export function forgot(email){
+    return http().get('/auth/forgot/'+email)
+}
+export function resetPassword(data){
+    return http().post('/auth/forgot',data)
+}
 export function getProfile(){
     return http().get('/user/profile')
 }

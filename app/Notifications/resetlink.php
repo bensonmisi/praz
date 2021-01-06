@@ -38,7 +38,7 @@ class resetlink extends Notification implements ShouldQueue
     {
         return (new MailMessage)
                     ->line('Please click the link below to reset your password')
-                    ->action('Notification Action', url('/password_reset/'.$this->token))
+                    ->action('Reset Password', url('/password_reset/'.$this->token))
                     ->line('If you did not initiate password reset please ignore this email')
                     ->line('Thank you for using our application!');
     }
