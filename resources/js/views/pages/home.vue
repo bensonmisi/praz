@@ -33,7 +33,7 @@
 
         <v-container fluid>
         <v-row>
-            <v-col cols="12" sm="3">
+            <!-- <v-col cols="12" sm="3">
             
               <div>
                 <v-card flat outlined class="blue darken-2">
@@ -82,7 +82,7 @@
                   </v-card-text>
                 </v-card>
               </div>
-             </v-col>
+             </v-col> -->
             <v-col cols="12" sm="9">
               <v-card flat class="grey lighten-3">
                 <v-card-text>

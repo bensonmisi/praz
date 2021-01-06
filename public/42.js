@@ -383,180 +383,6 @@ var render = function() {
           _c(
             "v-row",
             [
-              _c("v-col", { attrs: { cols: "12", sm: "3" } }, [
-                _c(
-                  "div",
-                  [
-                    _c(
-                      "v-card",
-                      {
-                        staticClass: "blue darken-2",
-                        attrs: { flat: "", outlined: "" }
-                      },
-                      [
-                        _c(
-                          "v-card-text",
-                          { staticClass: "px-0 py-0" },
-                          [
-                            _c(
-                              "v-list",
-                              { staticClass: "blue darken-2" },
-                              [
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  {
-                                    staticClass: "py-2",
-                                    attrs: { link: "" },
-                                    on: {
-                                      click: function($event) {
-                                        _vm.registrationDialog = true
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      {
-                                        staticClass:
-                                          "title grey--text text--lighten-5"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                    How to become a registered bidder\n                  "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  { staticClass: "py-2", attrs: { link: "" } },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      {
-                                        staticClass:
-                                          "title grey--text text--lighten-5"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                    How to make payments using bank transfers\n                  "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  { staticClass: "py-2", attrs: { link: "" } },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      {
-                                        staticClass:
-                                          "title grey--text text--lighten-5"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                    How to make payments using mobile platforms\n                  "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  { staticClass: "py-2", attrs: { link: "" } },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      {
-                                        staticClass:
-                                          "title grey--text text--lighten-5"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                    How to renew praz registration\n                  "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  { staticClass: "py-2", attrs: { link: "" } },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      {
-                                        staticClass:
-                                          "title grey--text text--lighten-5"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                    How to get banking details\n                  "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-divider"),
-                                _vm._v(" "),
-                                _c(
-                                  "v-list-item",
-                                  { staticClass: "py-2", attrs: { link: "" } },
-                                  [
-                                    _c(
-                                      "v-list-item-content",
-                                      {
-                                        staticClass:
-                                          "title grey--text text--lighten-5"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                    Benefits of being a registered supplier\n                  "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("v-divider")
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ]),
-              _vm._v(" "),
               _c(
                 "v-col",
                 { attrs: { cols: "12", sm: "9" } },
@@ -904,10 +730,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuetify/lib/components/VCarousel */ "./node_modules/vuetify/lib/components/VCarousel/index.js");
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/index.js");
 /* harmony import */ var vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vuetify/lib/components/VDialog */ "./node_modules/vuetify/lib/components/VDialog/index.js");
-/* harmony import */ var vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VDivider */ "./node_modules/vuetify/lib/components/VDivider/index.js");
-/* harmony import */ var vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VList */ "./node_modules/vuetify/lib/components/VList/index.js");
-/* harmony import */ var vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VSheet */ "./node_modules/vuetify/lib/components/VSheet/index.js");
-/* harmony import */ var vuetify_lib_components_VTimeline__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTimeline */ "./node_modules/vuetify/lib/components/VTimeline/index.js");
+/* harmony import */ var vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VSheet */ "./node_modules/vuetify/lib/components/VSheet/index.js");
+/* harmony import */ var vuetify_lib_components_VTimeline__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VTimeline */ "./node_modules/vuetify/lib/components/VTimeline/index.js");
 
 
 
@@ -941,11 +765,7 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 
 
 
-
-
-
-
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCard"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardTitle"],VCarousel: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_6__["VCarousel"],VCarouselItem: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_6__["VCarouselItem"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__["VDialog"],VDivider: vuetify_lib_components_VDivider__WEBPACK_IMPORTED_MODULE_9__["VDivider"],VList: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_10__["VList"],VListItem: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_10__["VListItem"],VListItemContent: vuetify_lib_components_VList__WEBPACK_IMPORTED_MODULE_10__["VListItemContent"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VRow"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_11__["VSheet"],VTimeline: vuetify_lib_components_VTimeline__WEBPACK_IMPORTED_MODULE_12__["VTimeline"],VTimelineItem: vuetify_lib_components_VTimeline__WEBPACK_IMPORTED_MODULE_12__["VTimelineItem"]})
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_4__["VBtn"],VCard: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCard"],VCardText: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardText"],VCardTitle: vuetify_lib_components_VCard__WEBPACK_IMPORTED_MODULE_5__["VCardTitle"],VCarousel: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_6__["VCarousel"],VCarouselItem: vuetify_lib_components_VCarousel__WEBPACK_IMPORTED_MODULE_6__["VCarouselItem"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VCol"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VContainer"],VDialog: vuetify_lib_components_VDialog__WEBPACK_IMPORTED_MODULE_8__["VDialog"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["VRow"],VSheet: vuetify_lib_components_VSheet__WEBPACK_IMPORTED_MODULE_9__["VSheet"],VTimeline: vuetify_lib_components_VTimeline__WEBPACK_IMPORTED_MODULE_10__["VTimeline"],VTimelineItem: vuetify_lib_components_VTimeline__WEBPACK_IMPORTED_MODULE_10__["VTimelineItem"]})
 
 
 /* hot reload */
