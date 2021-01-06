@@ -40,6 +40,60 @@
 
         <!-- 2/3  -->
         <v-col cols="12" sm="8">
+            <v-row>
+                <v-col cols="12" sm="6">
+                    
+            <div>
+                <v-card flat>
+                    <v-card-title class="text-center red lighten-4">Pending invoices</v-card-title>
+                    <v-card-text>
+
+                        <v-btn block outlined  color="red" class="mt-5" v-if="invoice.length > 0 "  @click="startRegistration"> Continue</v-btn>
+                        <div v-else class=" red--text pa-10 text-center">No Pending Invoices found</div>
+
+                    </v-card-text>
+                </v-card>
+            </div>
+                </v-col>
+                 <v-col cols="12" sm="6">
+                        <div>
+                <v-card flat>
+                    <v-card-title class="text-center blue lighten-4">Awaiting Verification</v-card-title>
+                    <v-card-text>
+                        <v-list>
+                            <div v-if="awaiting.length >0">
+                                  <v-simple-table>
+                                        <thead>
+                                            <tr><th>Reference Number</th></tr>
+                                        </thead>
+                                        <tbody>
+                                <template v-for="aw in awaiting">
+                                    
+                                            <template v-for="transfer in aw.transfers">
+                                            <tr  :key="transfer.id">
+                                                
+                                                <td>
+                                                    {{transfer.referencenumber}}
+                                                </td>
+                                                <td class="text-right">
+                                                  <v-btn outlined rounded color="green" @click="verify(transfer.id,transfer.referencenumber)">Verify</v-btn>
+                                                </td>
+                                            </tr>
+                                            </template>
+                                     
+                                </template>
+                                   </tbody>
+                                    </v-simple-table>
+                            </div>
+                           <div v-else class="red--text pa-8 text-center">
+                                No Payments Awaiting Verification found
+                            </div>
+                        </v-list>
+                    </v-card-text>
+                </v-card>
+            </div>
+                 </v-col>
+            </v-row>
             
     <v-card flat>
         <v-card-title class="green lighten-4 mt-4">
@@ -151,54 +205,8 @@
               
             </div>
 
-            <div>
-                <v-card flat>
-                    <v-card-title class="text-center red lighten-4">Pending invoices</v-card-title>
-                    <v-card-text>
 
-                        <v-btn block outlined  color="red" class="mt-5" v-if="invoice.length > 0 "  @click="startRegistration"> Continue</v-btn>
-                        <div v-else class=" red--text pa-10 text-center">No Pending Invoices found</div>
-
-                    </v-card-text>
-                </v-card>
-            </div>
-
-            <div class="mt-5">
-                <v-card flat>
-                    <v-card-title class="text-center blue lighten-4">Awaiting Verification</v-card-title>
-                    <v-card-text>
-                        <v-list>
-                            <div v-if="awaiting.length >0">
-                                  <v-simple-table>
-                                        <thead>
-                                            <tr><th>Reference Number</th></tr>
-                                        </thead>
-                                        <tbody>
-                                <template v-for="aw in awaiting">
-                                    
-                                            <template v-for="transfer in aw.transfers">
-                                            <tr  :key="transfer.id">
-                                                
-                                                <td>
-                                                    {{transfer.referencenumber}}
-                                                </td>
-                                                <td class="text-right">
-                                                  <v-btn outlined rounded color="green" @click="verify(transfer.id,transfer.referencenumber)">Verify</v-btn>
-                                                </td>
-                                            </tr>
-                                            </template>
-                                     
-                                </template>
-                                   </tbody>
-                                    </v-simple-table>
-                            </div>
-                           <div v-else class="red--text pa-10 text-center">
-                                No Payments Awaiting Verification found
-                            </div>
-                        </v-list>
-                    </v-card-text>
-                </v-card>
-            </div>
+         
       
         </v-col>
     </v-row>

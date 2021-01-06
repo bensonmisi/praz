@@ -5,8 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    apiUrl:"https://portal.praz.org.zw/api",
-    serverUrl:"https://portal.praz.org.zw/",
+    apiUrl:"http://127.0.0.1:8000/api",
+    serverUrl:"http://127.0.0.1:8000/",
     categorylist:[],
     isAuthenticate:false,
     profile:{},

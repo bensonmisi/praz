@@ -593,6 +593,14 @@ function _defineProperty(obj, key, value) {
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1465,6 +1473,214 @@ var render = function() {
                   { attrs: { cols: "12", sm: "8" } },
                   [
                     _c(
+                      "v-row",
+                      [
+                        _c("v-col", { attrs: { cols: "12", sm: "6" } }, [
+                          _c(
+                            "div",
+                            [
+                              _c(
+                                "v-card",
+                                { attrs: { flat: "" } },
+                                [
+                                  _c(
+                                    "v-card-title",
+                                    {
+                                      staticClass: "text-center red lighten-4"
+                                    },
+                                    [_vm._v("Pending invoices")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-card-text",
+                                    [
+                                      _vm.invoice.length > 0
+                                        ? _c(
+                                            "v-btn",
+                                            {
+                                              staticClass: "mt-5",
+                                              attrs: {
+                                                block: "",
+                                                outlined: "",
+                                                color: "red"
+                                              },
+                                              on: {
+                                                click: _vm.startRegistration
+                                              }
+                                            },
+                                            [_vm._v(" Continue")]
+                                          )
+                                        : _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                " red--text pa-10 text-center"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "No Pending Invoices found"
+                                              )
+                                            ]
+                                          )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("v-col", { attrs: { cols: "12", sm: "6" } }, [
+                          _c(
+                            "div",
+                            [
+                              _c(
+                                "v-card",
+                                { attrs: { flat: "" } },
+                                [
+                                  _c(
+                                    "v-card-title",
+                                    {
+                                      staticClass: "text-center blue lighten-4"
+                                    },
+                                    [_vm._v("Awaiting Verification")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-card-text",
+                                    [
+                                      _c("v-list", [
+                                        _vm.awaiting.length > 0
+                                          ? _c(
+                                              "div",
+                                              [
+                                                _c("v-simple-table", [
+                                                  _c("thead", [
+                                                    _c("tr", [
+                                                      _c("th", [
+                                                        _vm._v(
+                                                          "Reference Number"
+                                                        )
+                                                      ])
+                                                    ])
+                                                  ]),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "tbody",
+                                                    [
+                                                      _vm._l(
+                                                        _vm.awaiting,
+                                                        function(aw) {
+                                                          return [
+                                                            _vm._l(
+                                                              aw.transfers,
+                                                              function(
+                                                                transfer
+                                                              ) {
+                                                                return [
+                                                                  _c(
+                                                                    "tr",
+                                                                    {
+                                                                      key:
+                                                                        transfer.id
+                                                                    },
+                                                                    [
+                                                                      _c("td", [
+                                                                        _vm._v(
+                                                                          "\n                                                    " +
+                                                                            _vm._s(
+                                                                              transfer.referencenumber
+                                                                            ) +
+                                                                            "\n                                                "
+                                                                        )
+                                                                      ]),
+                                                                      _vm._v(
+                                                                        " "
+                                                                      ),
+                                                                      _c(
+                                                                        "td",
+                                                                        {
+                                                                          staticClass:
+                                                                            "text-right"
+                                                                        },
+                                                                        [
+                                                                          _c(
+                                                                            "v-btn",
+                                                                            {
+                                                                              attrs: {
+                                                                                outlined:
+                                                                                  "",
+                                                                                rounded:
+                                                                                  "",
+                                                                                color:
+                                                                                  "green"
+                                                                              },
+                                                                              on: {
+                                                                                click: function(
+                                                                                  $event
+                                                                                ) {
+                                                                                  return _vm.verify(
+                                                                                    transfer.id,
+                                                                                    transfer.referencenumber
+                                                                                  )
+                                                                                }
+                                                                              }
+                                                                            },
+                                                                            [
+                                                                              _vm._v(
+                                                                                "Verify"
+                                                                              )
+                                                                            ]
+                                                                          )
+                                                                        ],
+                                                                        1
+                                                                      )
+                                                                    ]
+                                                                  )
+                                                                ]
+                                                              }
+                                                            )
+                                                          ]
+                                                        }
+                                                      )
+                                                    ],
+                                                    2
+                                                  )
+                                                ])
+                                              ],
+                                              1
+                                            )
+                                          : _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "red--text pa-8 text-center"
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                No Payments Awaiting Verification found\n                            "
+                                                )
+                                              ]
+                                            )
+                                      ])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ])
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
                       "v-card",
                       { attrs: { flat: "" } },
                       [
@@ -1876,183 +2092,6 @@ var render = function() {
                           )
                         }),
                         0
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    [
-                      _c(
-                        "v-card",
-                        { attrs: { flat: "" } },
-                        [
-                          _c(
-                            "v-card-title",
-                            { staticClass: "text-center red lighten-4" },
-                            [_vm._v("Pending invoices")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-text",
-                            [
-                              _vm.invoice.length > 0
-                                ? _c(
-                                    "v-btn",
-                                    {
-                                      staticClass: "mt-5",
-                                      attrs: {
-                                        block: "",
-                                        outlined: "",
-                                        color: "red"
-                                      },
-                                      on: { click: _vm.startRegistration }
-                                    },
-                                    [_vm._v(" Continue")]
-                                  )
-                                : _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        " red--text pa-10 text-center"
-                                    },
-                                    [_vm._v("No Pending Invoices found")]
-                                  )
-                            ],
-                            1
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "mt-5" },
-                    [
-                      _c(
-                        "v-card",
-                        { attrs: { flat: "" } },
-                        [
-                          _c(
-                            "v-card-title",
-                            { staticClass: "text-center blue lighten-4" },
-                            [_vm._v("Awaiting Verification")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-card-text",
-                            [
-                              _c("v-list", [
-                                _vm.awaiting.length > 0
-                                  ? _c(
-                                      "div",
-                                      [
-                                        _c("v-simple-table", [
-                                          _c("thead", [
-                                            _c("tr", [
-                                              _c("th", [
-                                                _vm._v("Reference Number")
-                                              ])
-                                            ])
-                                          ]),
-                                          _vm._v(" "),
-                                          _c(
-                                            "tbody",
-                                            [
-                                              _vm._l(_vm.awaiting, function(
-                                                aw
-                                              ) {
-                                                return [
-                                                  _vm._l(aw.transfers, function(
-                                                    transfer
-                                                  ) {
-                                                    return [
-                                                      _c(
-                                                        "tr",
-                                                        { key: transfer.id },
-                                                        [
-                                                          _c("td", [
-                                                            _vm._v(
-                                                              "\n                                                    " +
-                                                                _vm._s(
-                                                                  transfer.referencenumber
-                                                                ) +
-                                                                "\n                                                "
-                                                            )
-                                                          ]),
-                                                          _vm._v(" "),
-                                                          _c(
-                                                            "td",
-                                                            {
-                                                              staticClass:
-                                                                "text-right"
-                                                            },
-                                                            [
-                                                              _c(
-                                                                "v-btn",
-                                                                {
-                                                                  attrs: {
-                                                                    outlined:
-                                                                      "",
-                                                                    rounded: "",
-                                                                    color:
-                                                                      "green"
-                                                                  },
-                                                                  on: {
-                                                                    click: function(
-                                                                      $event
-                                                                    ) {
-                                                                      return _vm.verify(
-                                                                        transfer.id,
-                                                                        transfer.referencenumber
-                                                                      )
-                                                                    }
-                                                                  }
-                                                                },
-                                                                [
-                                                                  _vm._v(
-                                                                    "Verify"
-                                                                  )
-                                                                ]
-                                                              )
-                                                            ],
-                                                            1
-                                                          )
-                                                        ]
-                                                      )
-                                                    ]
-                                                  })
-                                                ]
-                                              })
-                                            ],
-                                            2
-                                          )
-                                        ])
-                                      ],
-                                      1
-                                    )
-                                  : _c(
-                                      "div",
-                                      {
-                                        staticClass:
-                                          "red--text pa-10 text-center"
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                No Payments Awaiting Verification found\n                            "
-                                        )
-                                      ]
-                                    )
-                              ])
-                            ],
-                            1
-                          )
-                        ],
-                        1
                       )
                     ],
                     1
