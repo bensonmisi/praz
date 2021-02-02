@@ -21,4 +21,13 @@ class supplier extends Model
     public function admin(){
         return $this->hasOne('App\administrator','id','assigned_by');
     }
+
+    public function formate(){
+        return[
+            "id"=>$this->id,
+            "expire_year"=>$this->expire_year,
+            "category"=>$this->category,
+            "status"=>$this->status
+        ];
+    }
 }

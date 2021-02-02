@@ -42,4 +42,18 @@ class online_invoice extends Model
       public function transfers(){
           return $this->hasMany(transfers::class,'invoicenumber','invoice_number');
       }
+
+      public function formate(){
+          return[
+              "id"=>$this->id,
+               "invoice_number"=>$this->invoice_number,
+               "created_at"=>$this->created_at,
+               "currency"=>$this->currency->name,
+               "year"=>$this->year,
+               "amount"=>$this->cost,
+               "category"=>$this->category,
+               "status"=>$this->status,
+               "receipts"=>$this->receipts
+          ];
+      }
 }

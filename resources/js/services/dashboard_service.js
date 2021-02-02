@@ -1,7 +1,7 @@
 import {http,httpFile} from '../services/http_service';
 
-export function getRegistrations(){
-    return http().get('registrations')
+export function getDashboard(){
+    return http().get('dashboard')
 }
 
 export function uploadDocument(data){

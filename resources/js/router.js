@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Welcome from './views/welcome'
-import Home from './views/Home'
+import BidderTemplate from './views/BidderTemplate'
 import Administrator from './views/admin'
 
 import * as auth from './services/auth_service'
@@ -37,6 +37,36 @@ const routes =[
                component: () =>  import('./views/pages/faqs.vue')
              },
              {
+               path:'/How-to-register',
+               name:'How-to-register',
+               component: () =>  import('./views/pages/faqs/how_to_register.vue')
+             },
+             {
+               path:'/Registration-benefits',
+               name:'registration-benefits',
+               component: () =>  import('./views/pages/faqs/benefits.vue')
+             },
+             {
+               path:'/Foreign-registrations',
+               name:'foreign-registration',
+               component: () =>  import('./views/pages/faqs/foreign_registration.vue')
+             },
+             {
+               path:'/How-much',
+               name:'how-much',
+               component: () =>  import('./views/pages/faqs/how_much.vue')
+             },
+             {
+               path:'/Registration-proof',
+               name:'registration-proof',
+               component: () =>  import('./views/pages/faqs/registration_proof.vue')
+             },
+             {
+              path:'/Verification',
+              name:'verification',
+              component: () =>  import('./views/pages/verification.vue')
+            },
+             {
                path:'/register',
                name:'Register',
                component: () =>  import('./views/pages/Register.vue')
@@ -70,67 +100,82 @@ const routes =[
              }
         ]
     },{
-      path:'/Home/',
-      component:Home,
+      path:'/Bidders-Dashboard/',
+      component:BidderTemplate,
       children:[
         {
           path:'/',
-          name:'Home',
-          component:() => import('./views/user/Dashboard.vue')
-        },
-        {
-          path:'/Home/Dashboard',
           name:'Dashboard',
           component:() => import('./views/user/Dashboard.vue')
         },
         {
-          path:'/Home/Invoicing',
+          path:'/Bidders-Dashboard/Invoicing',
           name:'Invoicing',
           component:() => import('./views/user/invoicing.vue')
         },
         {
-          path:'/Home/Bidbonds',
+          path:'/Bidders-Dashboard/Bidbonds',
           name:'Bidbonds',
           component:() => import('./views/user/bidbonds.vue')
         },
         {
-          path:'/Home/Receipts',
+          path:'/Bidders-Dashboard/Receipts',
           name:'Receipts',
           component:() => import('./views/user/receipting.vue')
         },
         ,
         {
-          path:'/Home/Invoices',
+          path:'/Bidders-Dashboard/Invoices',
           name:'Invoices',
           component:() => import('./views/user/invoices.vue')
         },
         {
-          path:'/Home/onlinepayments',
-          name:'Onlinepayments',
+          path:'/Bidders-Dashboard/onlinepayments',
+          name:'onlinepayments',
           component:() => import('./views/user/onlinepayments.vue')
         },
         {
-          path:'/Home/bankpayments',
-          name:'Bankpayments',
+          path:'/Bidders-Dashboard/Documents',
+          name:'documents',
+          component:() => import('./views/user/documents.vue')
+        },
+        {
+          path:'/Bidders-Dashboard/bankpayments',
+          name:'bankpayments',
           component:() => import('./views/user/bankpayments.vue')
         },
         {
-          path:'/Home/users',
-          name:'Users',
+          path:'/Bidders-Dashboard/users',
+          name:'users',
           component:() => import('./views/user/users.vue')
         },
         {
-          path:'/Home/tenders',
-          name:'Tenders',
+          path:'/Bidders-Dashboard/tenders',
+          name:'tenders',
           component:() => import('./views/user/tenders.vue')
         },
         {
-          path:'/Home/Profile',
+          path:'/Bidders-Dashboard/Registration/Documents',
+          name:'Registration_Documents',
+          component:() => import('./views/user/registration/documents.vue')
+        },
+        {
+          path:'/Bidders-Dashboard/Registration/Invoicing',
+          name:'Registration_invoicing',
+          component:() => import('./views/user/registration/invoicing.vue')
+        },
+        {
+          path:'/Bidders-Dashboard/Registration/Payments',
+          name:'Registration_payments',
+          component:() => import('./views/user/registration/payments.vue')
+        },
+        {
+          path:'/Bidders-Dashboard/Profile',
           name:'Profile',
           component:() => import('./views/user/profile.vue')
         },
         {
-          path:'/Home/check',
+          path:'/Bidders-Dashboard/check',
           name:'Check',
           component:() => import('./views/user/check.vue')
         }

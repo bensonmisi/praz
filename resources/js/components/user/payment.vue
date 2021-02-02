@@ -23,7 +23,7 @@
 
         <v-card-text>
           <v-row>
-                <v-col cols="12" sm="6" v-if="currency=='ZWL'">
+                <v-col cols="12" v-if="currency=='ZWL'">
                     <v-card dark class=" blue" @click="showMobile('ecocash')">
                         <v-card-text  class="text-center">
                             <div class="heading white--text">
@@ -32,7 +32,7 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-                 <v-col cols="12" sm="6" v-if="currency=='ZWL'">
+                 <v-col cols="12"  v-if="currency=='ZWL'">
                     <v-card dark class="orange"  @click="showMobile('onemoney')">
                         <v-card-text  class="text-center">
                              <div class="heading white--text">
@@ -43,12 +43,12 @@
                 </v-col>
             </v-row>
                 <v-row>
-                <v-col cols="12" sm="6">
+                <v-col cols="12">
                     <v-card dark class="green" @click="getInternal">
                         <v-card-text  class="text-center">
                             <div>
                                 <div class="heading white--text">
-                           Internal Balance
+                             Upload proof of Payment
                                 </div>
                                 <div>
                                     Zipit,Transfers,Direct Deposits
@@ -57,7 +57,7 @@
                         </v-card-text>
                     </v-card>
                 </v-col>
-                 <v-col cols="12" sm="6" v-if="currency=='USD'">
+                 <v-col cols="12" v-if="currency=='USD'">
                     <v-card  dark class="orange" @click="onlinepayment">
                         <v-card-text class="text-center">
                             <div>
@@ -197,18 +197,14 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-card-text>
-            <div class="text-center" v-if="balance > 0">
+            <div>
               Are you sure you want to use funds you  transfered into our account to settle your current supplier registreation  invoice 
             <div class="text-center">
               <v-btn class="red white--text" @click="internalDialog=false">Cancel</v-btn>
               <v-btn class="green white--text" @click="internalRegistration">Proceed</v-btn>
             </div>
             </div>
-            <div class="text-center" v-else>
-               <p class="red--text">INSUFFICIENT FUNDS</p>
-               <div>If you have done a bank transfer, direct deposite,zipit please get transaction reference number from your bank and click button below</div>
-                <v-btn rounded class="blue white--text" @click="claim">Claim bank transfer</v-btn>
-            </div>
+          
            
         </v-card-text>
             </v-card>
@@ -220,17 +216,10 @@
           >
           <v-form v-model="reform" ref="reform" lazy-validation>
             <v-card>
-              <v-card-title>Claim bank transfer</v-card-title>
-              <v-card-text>
-                  <v-row v-if="confirmref">
-                  <v-col cols="12" class="mt-2">
-                  <div class="pa-10 red lighten-3 white--text" >
-                      We could not find your reference number,If you have correctly capture your reference number click CONFIRM and our system will put your registration on AWAITING MODE and it will automatically change the status to APPROVED once the transaction as come through
-                  </div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12" class="mt-2">
+              <v-card-title>Upload Proof Of Payment</v-card-title>
+              <v-card-text>           
+                
+               
                   <v-text-field
                          v-model="refnumber"
                          label="Reference Number"
@@ -238,26 +227,19 @@
                          :rules="refRule"
                           >
                   </v-text-field>
-                  </v-col>
-                </v-row>
-              
-                <v-row  v-if="confirmref">
-                  <v-col cols="12" class="mt-2">
+           
                    <v-file-input                
                     show-size
                     counter
                     outlined
                     label="Attach Proof of Payment"
-                    prepend-icon="mdi-pdf-box"
                     accept=".pdf"
                     v-model="fileupload"
                     :rules="fileRule"
                     >
                 </v-file-input>
-                  </v-col>
-                </v-row>
-                <v-row  v-if="confirmref">
-                  <v-col cols="12" class="mt-2">
+              
+               
                   <v-text-field
                          v-model="bank"
                          label="Bank name"
@@ -265,15 +247,14 @@
                          :rules="bankRule"
                           >
                   </v-text-field>
-                  </v-col>
-                </v-row>
+                
                   
               </v-card-text>
               <v-card-actions>
                 <v-btn rounded class="red white--text" @click="referenceDialog= false">Cancel</v-btn>
                 <v-spacer></v-spacer>
-                    <v-btn rounded class="green white--text" @click="claimRef" v-if="!confirmref">Submit</v-btn>
-                    <v-btn rounded class="green white--text" @click="confirm" v-else>Confirm</v-btn>
+                   
+                    <v-btn rounded class="green white--text" @click="confirm">Upload</v-btn>
               </v-card-actions>
             </v-card>
           </v-form>
@@ -320,12 +301,12 @@
             <v-card-title> Upload Success</v-card-title>
             <v-card-text class="text-center">
               
-                <h1>Successfull</h1>
+                <h1>Success</h1>
                 <div>
                   <v-icon x-large>mdi-check</v-icon>
                 </div>
                 <div>
-                  You proof of payment was successfully uploaded,Do you wish to upload another proof of payment
+                  You proof of payment was successfully uploaded your registration will be approved manually. Please note  this will be processed only when funds reflect in our account,Do you wish to upload another proof of payment
                 </div>
 
                  <div>
@@ -449,9 +430,14 @@ export default {
       getInternal(){
        this.loading = true
        invoicing.getInternalBalance(this.currency).then(response=>{
-        this.balance = response.data.balance
+        this.balance = response.data.balance      
          this.loading = false
-        this.internalDialog = true
+         if(this.balance > 0){
+            this.internalDialog = true
+         }else{
+              this.referenceDialog = true
+         }
+      
 
        }).catch(error=>{
          this.loading = false

@@ -44,4 +44,23 @@ class User extends Authenticatable
     public function setPasswordAttribute($value){
         $this->attributes['password']= bcrypt($value);
     }
+
+    public function generate_token(){ 
+        $tokenData = $this->createToken('Personal Access Token',['bidder']);    
+        if($this->role=='entity')  {
+            $tokenData = $this->createToken('Personal Access Token',['entity']);
+        }  
+        return $tokenData;
+ 
+    }
+
+    public function formate(){
+        return[
+            "email"=>$this->email,
+            "name"=>$this->name,
+            "surname"=>$this->surname,
+            "company"=>$this->company->name,
+            "regnumber"=>$this->company->regnumber
+        ];
+    }
 }

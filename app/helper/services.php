@@ -34,9 +34,12 @@ public function helper_checkDocuments(){
     ->get();
       $approved = 0;
     foreach ($documents as $doc) {
+           if(!is_null($doc->company))
+           {
           if($doc->company->status =='APPROVED'){
             $approved++;
           }
+        }
     }
 
     if(count($documents)==$approved){

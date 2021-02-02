@@ -21,7 +21,9 @@ export default new Vuex.Store({
     generalreportTotal:0,
     invoice:[],
     documentstatus:false,
-    regyear:[]
+    regyear:[],
+    companydocuments:[],
+    messages:[]
 
   },
   mutations: {
@@ -67,6 +69,12 @@ export default new Vuex.Store({
     },
     setRegyear(state,payload){
       state.regyear = payload
+    },
+    setCompanydocuments(state,payload){
+      state.companydocuments = payload
+    },
+    setMessages(state,payload){
+      state.messages = payload
     }
   },
   actions: {
@@ -111,6 +119,12 @@ export default new Vuex.Store({
     },
     setRegyear(context,payload){
       context.commit('setRegyear',payload)
+    },
+    setCompanyDocuments(context,payload){
+      context.commit('setCompanydocuments',payload)
+    },
+    setMessages(context,payload){
+      context.commit('setMessages',payload);
     }
 
 

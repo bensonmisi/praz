@@ -148,10 +148,11 @@ export default {
                 this.dialog = true
                auth.login(this.user).then(response=>{
                    this.dialog = false
-                  
+                   
                            if(response.status ==200) 
                            { 
-                          auth.setToken(response.data);                     
+                          
+                         auth.setToken(response.data.data);                     
                           this.$router.push({name:'Dashboard'});
                            }
                            else{

@@ -1,6 +1,6 @@
 import {http,httpFile} from '../services/http_service';
 export function getInvoice(){
-    return http().get('getInvoice')
+    return http().get('invoices')
 }
 
 export function addInvoice(data){
@@ -12,9 +12,9 @@ export function removeItem(id){
 }
 export function mobilepayment(data){
   return http().post('mobilepayment',data)
-}
+} 
 export function confirmPayment(id){
-  return http().get('confirmpayment/'+id)
+  return http().get('confirmpayment/'+id) 
 }
 export function downloadInvoice(inv){
   return http().get('printinvoice/'+inv, {responseType:'blob'})
@@ -37,4 +37,12 @@ export function paynowPayments(){
 
 export function checkpaynow(){
   return http().get('checkonlinepayment')
+}
+
+export function processAwaiting(formdata){
+  return http().post('processAwaiting',formdata);
+}
+
+export function updateReference(data){
+  return http().post('updatereference',data)
 }

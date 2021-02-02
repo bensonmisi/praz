@@ -30,7 +30,7 @@
         </v-card>
     </v-container>
     <v-container class="mt-3">
-            <v-card>
+            <v-card> 
              <v-card-text>
                <v-row>
                    <v-col  sm="2">

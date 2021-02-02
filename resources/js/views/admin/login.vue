@@ -139,10 +139,10 @@ export default {
                            if(response.status ==200) 
                            { 
                           auth.setToken(response.data);                     
-                          this.$router.push({name:'admin-dashboard'});
+                       //   this.$router.push({name:'admin-dashboard'});
                            }
                            else{
-                            this.message= response.data.message
+                            this.message= response.data.message 
                           this.snackbar=true
                           this.color="red"   
                            }

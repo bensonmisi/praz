@@ -21,7 +21,7 @@
         <v-list-item
            v-if="item.scope == role"
           link
-          :to="item.link"
+          :to="{'name':item.link}"
         >
           <v-list-item-icon>
             <v-icon class="white--text">{{ item.icon }}</v-icon>
@@ -45,6 +45,11 @@
       <div class="d-flex">
        <v-btn icon>
               <v-icon>fa fa-bell-o</v-icon>
+              <v-badge
+          color="red"
+          :content="getMessagesCount"
+        >         
+        </v-badge>
       </v-btn>
       <div>
         <v-menu
@@ -99,19 +104,15 @@ import * as auth from '../services/auth_service'
      data () {
       return {
         items: [
-          { title: 'Dashboard', icon: 'fa fa-dashboard',link:'/Home/Dashboard',scope:'bidder' },
-          { title: 'Invoices', icon: 'fa fa-file',link:'/Home/Invoices',scope:'bidder' },
-          { title: 'Receipts', icon: 'fa fa-dollar',link:'/Home/Receipts' ,scope:'bidder'},
-          { title: 'Bank payments', icon: 'fa fa-dollar',link:'/Home/bankpayments',scope:'bidder' },
-          { title:'Online payments', icon: 'fa fa-dollar',link:'/Home/onlinepayments',scope:'bidder' },
-          { title: 'Users', icon: 'fa fa-users',link:'/Home/users' ,scope:'bidder'},
-          { title: 'Procurements', icon: 'fa fa-bullhorn',link:'/Home/tenders',scope:'bidder' },
-          { title: 'Bid Bonds', icon: 'fa fa-money',link:'/Home/Bidbonds' ,scope:'bidder'},
-          { title: 'EntityDashboard', icon: 'fa fa-dashboard',link:'/Home/',scope:'entity' },
-          { title: 'Procurement', icon: 'fa fa-bullhorn',link:'/Home/entity/Procurements' ,scope:'entity'},
-          { title: 'Budgets', icon: 'fa fa-cogs',link:'/Home/entity/Budgets' ,scope:'entity'},
-          { title: 'Plans', icon: 'fa fa-cogs',link:'/Home/entity/Plans' ,scope:'entity'},
-          { title: 'Returns', icon: 'fa fa-cogs',link:'/Home/entity/Returns' ,scope:'entity'},
+          { title: 'Dashboard', icon: 'fa fa-dashboard',link:'Dashboard',scope:'bidder' },
+          { title: 'Invoices', icon: 'fa fa-file',link:'Invoices',scope:'bidder' },
+          { title: 'Receipts', icon: 'fa fa-dollar',link:'Receipts' ,scope:'bidder'},
+          { title: 'Bank payments', icon: 'fa fa-dollar',link:'bankpayments',scope:'bidder' },
+          { title:'Account Documents', icon: 'fa fa-folder-open',link:'documents',scope:'bidder' },
+          { title:'Online payments', icon: 'fa fa-dollar',link:'onlinepayments',scope:'bidder' },
+          { title: 'Users', icon: 'fa fa-users',link:'users' ,scope:'bidder'},
+          { title: 'Procurements', icon: 'fa fa-bullhorn',link:'tenders',scope:'bidder' },
+          { title: 'Bid Bonds', icon: 'fa fa-money',link:'Bidbonds' ,scope:'bidder'}
         ],
         right: null,
         drawer: null ,
@@ -119,24 +120,6 @@ import * as auth from '../services/auth_service'
         role:''
       }
     },mounted(){
-    //  auth.getProfile().then(response=>{
-    //      this.dialog = false;
-    //    this.$store.dispatch('setProfile',response.data)
-    //    this.role = auth.getCompany().token_scope
-    //    console.log(auth.getCompany())
-    //    this.name = auth.getCompany().user.name +' '+auth.getCompany().user.surname
-     
-    //     }).catch(error=>{
-    //       if(error.response.status==401){
-    //         auth.logout().then(response=>{
-    //        if(response.status ==200){
-    //          auth.removeItem();
-    //          this.$router.push({name:'signin'});
-    //        }
-    //      })
-    //       }
-               
-    //       })
     this.getProfile()
     },
     methods:{
@@ -147,10 +130,19 @@ import * as auth from '../services/auth_service'
              this.$router.push({name:'Login'});
            }
          })
-       },getProfile(){
-       this.role = auth.getCompany().token_scope
-       this.name = auth.getCompany().user.name +' '+auth.getCompany().user.surname
+       },
+       getProfile(){
+       this.role = auth.getCompany().user.token_scope
+       this.name = auth.getCompany().user.user.name +' '+auth.getCompany().user.user.surname
        }
+    },
+    computed:{
+      getMessages(){
+        return this.$store.state.messages
+      },
+      getMessagesCount(){
+        return this.getMessages.length >0 ? this.getMessages.length : '0'
+      }
     }
   }
 </script>

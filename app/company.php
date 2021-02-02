@@ -20,6 +20,10 @@ class company extends Model
           return $this->hasOne('App\pcompanyclass','company_id','id');
      }
 
+     public function requiredDocuments(){
+          return $this->hasMany(documents::class,'accounttype_id','accounttype_id')->where('locality','locality');
+     }
+
      public function documents(){ 
           return $this->belongsToMany(documents::class,'company_documents','company_id','document_id');
      }
@@ -71,5 +75,18 @@ class company extends Model
 
       public function comments(){
            return $this->hasMany(company_document_comments::class,'company_id','id');
+      }
+
+
+      public function formate(){
+           return[
+                "id"=>$this->id,
+                "name"=>$this->name,
+                "regnumber"=>$this->regnumber,
+                "country"=>$this->country,
+                "acounttype"=>$this->accounttype,
+                "contacts"=>$this->contacts,
+                "users"=>$this->users
+           ];
       }
 }

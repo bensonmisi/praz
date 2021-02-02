@@ -48,6 +48,8 @@ use App\Http\Controllers\bidders\OnlinepaymentsController;
 use App\Http\Controllers\bidders\qoutationController;
 use App\Http\Controllers\bidders\receiptsController;
 use App\Http\Controllers\bidders\userController;
+use App\Http\Controllers\bidders\registration\documentsController as registrationDocumentsController;
+use App\Http\Controllers\bidders\registration\invoicingController as registrationInvoicingController;
 use App\Http\Controllers\entity\dashboardController as EntityDashboardController;
 use App\Http\Controllers\entity\noticeController as EntityNoticeController;
 use App\Http\Controllers\welcomeController;
@@ -58,6 +60,7 @@ Route::get('welcome',[welcomeController::class,'index']);
 Route::get('suppliers',[welcomeController::class,'suppliers']);
 Route::get('notices',[welcomeController::class,'notices']);
 Route::get('awards',[welcomeController::class,'awards']);
+Route::post('verification',[welcomeController::class,'search']);
 
 Route::resource('/sendPayment','transactions\bankController');
 
@@ -80,19 +83,28 @@ Route::group(['prefix'=>'auth'],function(){
   });
 
   Route::group(['middleware'=>['auth:api','scope:bidder']],function(){
-    Route::get('registrations',[dashboardController::class,'index']);
+    /**
+     * supplier registration  routes
+     */
+    Route::get('registration_documents',[registrationDocumentsController::class,'index']);
+    Route::post('registration_document_upload',[registrationDocumentsController::class,'store']);
+
+    /**
+     * 
+     */
+    Route::get('dashboard',[dashboardController::class,'index']);
     Route::post('claimReceipt',[dashboardController::class,'claimReceipt']);
-    Route::post('confirmReceipt',[dashboardController::class,'confirmReceipt']);
-    Route::post('updatereference',[dashboardController::class,'updateref']);
+    Route::post('confirmReceipt',[dashboardController::class,'confirmReceipt']);    
     Route::get('onlinepayments',[onlineController::class,'index']);
     Route::get('checkonlinepayment',[onlineController::class,'check']);
     Route::get('internal/{currency}',[internalController::class,'index']);
     Route::post('internal',[internalController::class,'claim']);
     Route::post('internalregistration',[internalController::class,'registration']);
     Route::post('confirmTransaction',[internalController::class,'confirmTransaction']);
-    Route::post('uploadDocument',[dashboardController::class,'upload']);
+    Route::post('processAwaiting',[internalController::class,'processAwaiting']);
+    Route::post('updatereference',[internalController::class,'verify']);
+    Route::post('uploadDocument',[registrationDocumentsController::class,'upload']);
     Route::post('updateProfile',[dashboardController::class,'update']);
-    Route::get('getInvoice',[invoicingController::class,'show']);
     Route::get('invoices',[invoicingController::class,'index']);
     Route::post('addInvoice',[invoicingController::class,'add']);   
     Route::delete('removeItem/{id}',[invoicingController::class,'destroy']);

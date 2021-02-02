@@ -6,11 +6,14 @@ use App\company;
 use App\company_document_comments;
 use App\company_documents;
 use App\Http\Controllers\Controller;
+use App\Notifications\supplierNotification;
 use App\supplier;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use serviceHelper;
 
 class supplierController extends Controller
@@ -37,6 +40,8 @@ class supplierController extends Controller
      public function comment(Request $request){
          $request->validate(['comment'=>'required']);
          company_document_comments::create(['company_id'=>$request->id,'comment'=>$request->comment,'user_id'=>Auth::user()->id]);
+        $users = User::wherecompany_id($request->id)->get();
+         Notification::send($users,new supplierNotification($request->comment));
          $company = company::with('registrations.category','companyDocuments.document','accounttype','comments')->whereid($request->id)->first();
          return response()->json(['company'=>$company],200);
      }

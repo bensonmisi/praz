@@ -27,9 +27,17 @@ class OnlinepaymentsController extends Controller
         $paymentHelper = new paymentHelper();
         $servicehelper = new serviceHelper();
         $message="";
-        $paynow  = new Paynow('7628','50bccfe1-a756-4930-9596-d62a9fdb5a86','https://portal.praz.org.zw/Home/check','https://portal.praz.org.zw/Home/check');
         $payment = onlinepayments::whereid($id)->orderBy('id','desc')->first();
-        
+        $paynow="";
+        if(strtoupper($payment->mode)=='PAYNOW')
+           {
+             $paynow  = new Paynow('7708','002667b4-1998-49b7-a080-54a70a3380fa','https://portal.praz.org.zw/Home/check','https://portal.praz.org.zw/Home/check');
+
+           }
+           else{
+    $paynow  = new Paynow('7628','50bccfe1-a756-4930-9596-d62a9fdb5a86','https://portal.praz.org.zw/Home/check','https://portal.praz.org.zw/Home/check');
+          }
+ 
                /**
            * checking if the transaction was successfully completed
            */

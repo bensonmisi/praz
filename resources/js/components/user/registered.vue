@@ -1,38 +1,6 @@
 <template>
 <div>
-   <v-container fluid class="white">
-    
-               <div class="d-flex justify-between">
-                   <div>
-                       <div class="display-1 hidden-sm-and-down">{{company.name}} </div>
-                        <div class=" font-weight-bolder hidden-md-and-up">{{company.name}}</div>
-                       <div>{{company.regnumber}}</div>
-                   </div>
-                   <v-spacer></v-spacer>
-                   <div>                       
-                    <v-btn
-                     depressed
-                     color="primary"
-                     x-large
-                     class=" hidden-sm-and-down"
-                     @click="startRegistration"
-                    >
-                    Register Category
-                    </v-btn>
-                     <v-btn
-                    depressed
-                    color="primary"
-                     small
-                     rounded
-                     class=" hidden-md-and-up"
-                     @click="startRegistration"
-                    >
-                     Register Category
-                    </v-btn>
-                   </div>
-               </div>
-        
-   </v-container>
+
  <v-container fluid>
     
 <div>
@@ -56,11 +24,9 @@
       </v-btn>
                 </v-card-actions>
             </v-card>
-          
-            <v-row>
-                <v-col cols="12" sm="6">
-                    
-            <div>
+          <v-row>
+              <v-col cols="12" sm="6">
+                   <div>
                 <v-card flat>
                     <v-card-title class="text-center orange lighten-4">Pending invoices</v-card-title>
                     <v-card-text>
@@ -71,9 +37,10 @@
                     </v-card-text>
                 </v-card>
             </div>
-                </v-col>
-                 <v-col cols="12" sm="6">
-                        <div>
+
+              </v-col>
+              <v-col cols="12" sm="6">
+                  <div>
                 <v-card flat>
                     <v-card-title class="text-center blue lighten-4">Awaiting Verification</v-card-title>
                     <v-card-text>
@@ -109,8 +76,9 @@
                     </v-card-text>
                 </v-card>
             </div>
-                 </v-col>
-            </v-row>
+              </v-col>
+          </v-row>
+          
             
     <v-card flat>
         <v-card-title class="green lighten-4 mt-4">
@@ -210,6 +178,9 @@
          </v-list>
               
             </div>
+
+            
+                
 
 
          
@@ -453,13 +424,13 @@ export default {
             profileDialog:false,
             valid:true,
             regnumber:'',
-            refnumber:'',
+            refnumber:'', 
             ref_id:'',
             invoice:[],
             currentyear : new Date().getFullYear(),
             countryRules:[
                v=> !!v || 'Country is required'
-            ],
+            ], 
             addressRules:[
                v=> !!v || 'Address is required'
             ],

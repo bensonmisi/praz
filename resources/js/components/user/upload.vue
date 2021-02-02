@@ -115,6 +115,7 @@ export default {
                 this.snackbar=true,
                 this.color='green',
                 this.message ='Successfully Updated '+this.document.name
+                this.$store.dispatch('setCompanyDocuments',response.data.data)
                 this.$emit('refreshDashboard')
             }).catch(error=>{
                this.loading= false

@@ -18,11 +18,8 @@
               <v-btn  text>
                Award Notices
               </v-btn>
-                <v-btn text>
+                <v-btn text :to="{name:'Bidders'}">
                Registered Bidders
-              </v-btn>
-                 <v-btn  text>
-               FAQs
               </v-btn>
          </v-toolbar-items>
          

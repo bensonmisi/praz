@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\banktransactions;
 use App\Http\Livewire\Notifications;
+use App\Notifications\autoregistration;
 use App\Notifications\generalnotification;
 use App\online_invoice;
 use App\receipt;
@@ -12,6 +13,7 @@ use App\supplier;
 use App\transfers;
 use App\User;
 use Illuminate\Console\Command;
+use Illuminate\Notifications\Notification as NotificationsNotification;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Log;
 use paymentHelper;
@@ -50,142 +52,94 @@ class autosynctransfers extends Command
      */
     public function handle()
     {
-     $transfers = transfers::wherestatus('PENDING')->get();
-     $paymentHelper = new paymentHelper();
-     $servicehelper = new serviceHelper();
-     if(count($transfers)>0)
+      $transfers = transfers::wherestatus('PENDING')->get();
+  
+  if(count($transfers)>0)
+  {
+    foreach ($transfers as $key => $transfer) {
+      Log::info($transfer);
+     $invoice = online_invoice::whereinvoice_number($transfer->invoicenumber)->with('company.users')->first();
+     if(!is_null($invoice))
      {
-        foreach ($transfers as $key => $value) {
-          $bank =   banktransactions::where(['source_reference'=>$value->referencenumber])->first();
-      
-          if(!is_null($bank)){
-               /**
-                * get invoice
-                */
+      $message="";
+  $bank = banktransactions::wheresource_reference($transfer->referencenumber)->first();
+   if(!is_null($bank))
+   {
+      if($bank->status =='PENDING'){
+        $online = online_invoice::whereinvoice_number($transfer->invoicenumber)->get();
+        $total_invoice = $online->sum('cost') ;
+        $total_receipted = receipt::whereinvoicenumber($transfer->invoicenumber)->sum('amount');
+        if($total_invoice > $total_receipted){
+          $paymentHelper = new paymentHelper();
+          $service = new serviceHelper(); 
 
-                   $invoice = online_invoice::where(['invoice_number'=>$value->invoicenumber,'status'=>'AWAITING'])->get();
-                   $total_invoice=0;
-                    /**
-                     * calculate total invoice
-                     */
-                    $currency = '';
-                    $company_id=0;
-                    $user_id=0;
-                    $categorylist = [];
-                   if(count($invoice)>0)
-                   {
-                          foreach ($invoice as $ky => $val) {
-                            $total_invoice = $total_invoice + $val->cost;  
-                            $currency = $val->currency->name;
-                            $company_id = $val->company_id;
-                            $user_id = $val->user_id;
-                            $code = $servicehelper->helper_generate_code($val->id);
-                            $check_docs = $servicehelper->helper_checkDocuments_admin($val->company_id);
-                            $current = 'PENDING';
-                             if($check_docs)
-                              {
-                              $current = 'APPROVED';
-                               }
-                             $categorylist[] = array('company_id'=>$val->company_id,'category_id'=>$val->category_id,'expire_year'=>$val->year,'status'=>$current,'code'=>$code); 
-                          }
-                        
-                   }
-                   /**
-                    * check if currencies match
-                    */
-
-                   if($currency == $bank->currency)
-                   {
-                          /**
-                   * check if the invoice has been processed 
-                   */
-                   
-                    if($total_invoice >0)
-                   {
-                    Log::info('inv:'.$value->invoicenumber.'total_invoice:'.$total_invoice.' bank pamount: '.$bank->amount);
-         
-                       $amount_due = 0;
-                        $status ="PENDING";
-                       if($total_invoice > (int)$bank->amount)
-                       {
-                              $amount_due = (int)$bank->amount;
-                       }
-                       else
-                       {
-                           $status ="PAID";
-                           $amount_due = $total_invoice;
-                       }
-                      
-                       $receiptnumber = $paymentHelper->receipt_number();
-                       receipt::firstOrCreate(['source_id'=>$bank->id],
-                                         ['invoicenumber'=>$value->invoicenumber,
-                                        'receiptnumber'=>$receiptnumber,
-                                        'source_id'=>$bank->id,
-                                        'company_id'=>$company_id,
-                                        'method'=>'internal',
-                                        'currency'=>$currency,
-                                        'amount'=>$amount_due,
-                                        'user_id'=>$user_id]);
-                                        rtgs::whereinvoice_number($value->invoicenumber)->update(['status'=>'APPROVED','paymentdate'=>$bank->trans_date,'refnumber'=>$bank->source_reference,'transdate'=>$bank->trans_date,'amount'=>$bank->amount]);
-                  if($status =="PAID")
-                  {
-                     if(count($categorylist)>0){
-                         for ($i=0; $i < count($categorylist) ; $i++) { 
-                            supplier::firstOrCreate(
-                                                ['company_id'=>$categorylist[$i]['company_id'],
-                                              'category_id'=>$categorylist[$i]['category_id'],
-                                              'expire_year'=>$categorylist[$i]['expire_year']],
-                                              ['company_id'=>$categorylist[$i]['company_id'],
-                                              'category_id'=>$categorylist[$i]['category_id'],
-                                              'expire_year'=>$categorylist[$i]['expire_year'],
-                                              'status'=>$categorylist[$i]['status'],
-                                              'code'=>$categorylist[$i]['code']]);                       
-           
-                         }
-                     }
-
-                     online_invoice::whereinvoice_number($value->invoicenumber)->update(['status'=>'PAID']);
-                  }
-                   
-                  $bank->status ='CLAIMED';
-                  $bank->customer_number=$invoice[0]->company->regnumber; 
-                  $bank->save();
-                  $value->status='CLAIMED';
-                  $value->save();
-
-                  Log::info($value->invoicenumber.'   CLAIMED ');
-                  $status ="PROCESSED";
-                  $message ="YOUR PRAZ registration has been proceed check your portal ";
-                  $invoice = online_invoice::whereinvoice_number($value->invoicenumber)->first();
-                  $users = User::wherecompany_id($invoice->company_id)->get();
-                  Notification::send($users, new generalnotification($status,$message));
-                      
-                   }
-                   else
-                   {
-                     $value->status='CLAIMED';
-                     $value->save();
-                   }
-                }
-                else
-                {
-                  $bank->status ='PENDING';
-                  $bank->save();
-
-                  $value->status='CANCELLED';
-                  $value->save();
-                  $status ="CANCELLED";
-                  $message =" Currency on invoice: ".$currency." Currency Transferred ".$bank->currency;
-                  online_invoice::whereinvoice_number($value->invoicenumber)->update(['status'=>'CANCELLED']);
-                  $invoice = online_invoice::whereinvoice_number($value->invoicenumber)->first();
-                  $users = User::wherecompany_id($invoice->company_id)->get();
-                  Notification::send($users, new generalnotification($status,$message));
-                  
-                }
-
+          $receiptnumber = $paymentHelper->receipt_number();
+           $status ="PENDING";
+           $doc_status ="PENDING";
+          if(($total_receipted+(int)$bank->amount) >= $total_invoice)
+          {
+             $status = "PAID";
+             $check_docs = $service->helper_checkDocuments_admin($invoice->company->id);
+             if($check_docs){
+              $doc_status = 'APPROVED';
+             }
 
           }
+      
+          receipt::create(['invoicenumber'=>$transfer->invoicenumber,'receiptnumber'=>$receiptnumber,'source_id'=>$bank->id,'company_id'=>$invoice->company->id,'method'=>'internal','currency'=>$bank->currency,'amount'=>(int)$bank->amount,'user_id'=>$invoice->company->users[0]->id]);
+          $bank->status="CLAIMED";
+          $bank->customer_number = $invoice->company->regnumber;
+          $bank->save();
+          $transfer->status="CLAIMED";
+          $transfer->save();
+          rtgs::whereinvoice_number($transfer->invoicenumber)->update(['status'=>'APPROVED','paymentdate'=>$bank->trans_date,'refnumber'=>$bank->source_reference,'transdate'=>$bank->trans_date,'amount'=>$bank->amount]);
+          $balance = $total_invoice-($total_receipted+(int)$bank->amount);
+        Log::info($balance);
+          if($balance<=0)
+          {
+            foreach ($online as $inv) {
+              if(!supplier::where(['company_id'=>$inv->company->id,'category_id'=>$inv->category_id,'expire_year'=>$inv->year])->exists())
+              {
+               $code = $service->helper_generate_code($inv->id);
+                supplier::create(['company_id'=>$inv->company->id,'category_id'=>$inv->category_id,'expire_year'=>$inv->year,'status'=>$doc_status,'code'=>$code]);
+                  /**
+                   * update each invoice  entry to paid
+                   */
+                  
+                  $inv->status ='PAID';
+                  $inv->save();
+              }
+            } 
+           /**
+            * registration successfully completed
+            */
+            $message ="You registration was automatically completed please login to your portal and download your certificate";
+         
+          }
+          else
+          {
+            /**
+             * payment receipt but balance remaining
+             */
+            $message = 'Transfer of :'.$bank->amount.' was found and receipted. HOWEVER REGISTRATION COULD NOT BE COMPLETED  BECAUSE THERE IS AN OUTSTANDING INVOICE BALANCE :'.$balance;
+           
+   
+          }
+          }
+
+      }else{
+        $message = "Your registration could not be processed because the reference number you captured has already been utilized";
+   
+      }
+   }
+   else
+   {
+     $message =" The reference number of ".$transfer->referencenumber.' could be found in our database  please  contact your bank and ask for a correct one. HINT it usual starts with BANK initials, however if  you paid using ZIPIT please ask your bank for transaction STAN CODE. Once in possesion of the new reference number please login to your portal, click on the verify button, enter the new reference number click update , then proceed to click the verify button again. If there refernce number is correct registration will automatically complete';
+   }
+   Notification::send($invoice->company->users,new autoregistration($message));
+  }
+       
         }
-    }
+  }
     }
 }

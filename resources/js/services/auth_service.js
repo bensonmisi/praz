@@ -51,6 +51,7 @@ export function getaccessToken(){
     if(token)
     {
     var decoded = jwt.decode(token);
+    
     return decoded.user.access_token;
     }else{
         return null
@@ -61,7 +62,7 @@ export function getCompany(){
     if(token)
     {
     var decoded = jwt.decode(token);
-    return decoded.user;
+    return decoded;
     }else{
         return null
     }
