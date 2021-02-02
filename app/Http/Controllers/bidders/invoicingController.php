@@ -20,6 +20,10 @@ class invoicingController extends Controller
      public function index(){
        return $this->invoicing->getInvoice($this->helper->getCompanyById());
      }
+
+    public function getAll(){
+      return $this->invoicing->getInvoices($this->helper->getCompanyById());
+    }
  
     public function add(addInvoiceRequest $request){
       return $this->invoicing->addItem($request,$this->helper->getCompanyById());

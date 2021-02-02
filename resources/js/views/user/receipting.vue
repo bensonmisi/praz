@@ -102,9 +102,10 @@ export default {
            this.loading = true
            general.getReceipts().then(response=>{
              this.loading = false
-             this.receipts = response.data.receipts
+             this.receipts = response.data.data
            }).catch(error=>{
              this.loading = false
+             
            })
        },
           print(id){

@@ -54,7 +54,9 @@
                  </v-card>
                </template>
                <messages></messages>
+               <div class="mt-5">
                <faqs></faqs>
+               </div>
              
              </v-col>
          </v-row>
@@ -108,8 +110,9 @@ import bankindetails   from '../../components/bankingdetails.vue'
 import awaiting from '../../components/user/awaiting/list.vue'
 import registered from '../../components/user/registered/list.vue'
 import messages from '../../components/user/messages.vue'
-import faqs from '../../components/tutorials/list.vue'
+import faqs from '../../components/faqs/sidebar.vue'
 import registationtutorial from '../../components/tutorials/registration.vue'
+
 export default {
     data(){
         return{

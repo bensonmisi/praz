@@ -35,6 +35,11 @@ class bankpaymentsRepository implements bankpaymentsInterface{
        return $this->success('Success',$balance);
     }
 
+    public function getlist($company){
+     $data = banktransactions::wherecustomer_number($company->regnumber)->get();
+     return $this->success('SUCCESSFUL',$data);
+    }
+
     public function claimReference(claimreferenceRequest $request,$company){
       $transaction = banktransactions::wheresource_reference($request->refnumber)->first();
       $users = User::wherecompany_id($company->id)->get();

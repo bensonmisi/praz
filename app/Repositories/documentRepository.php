@@ -18,6 +18,23 @@ class documentRepository implements documentInterface{
     {
      $this->helper = $helper; 
     }
+
+    public function getDocuments($company)
+    {
+        $documents = documents::whereaccounttype_id($company->accounttype_id)->wherelocality($company->locality)->with(['company'=>function($query)use($company){
+            $query->wherecompany_id($company->id);
+        }])->get()->map(function($document){
+            return[
+                "id"=>$document->id,
+                "name"=>$document->name,
+                "uploaded"=> !is_null($document->company) ? true : false,
+                "status"=> !is_null($document->company) ? $document->company->status : ''
+            ];
+        });
+
+        return $this->success("SUCCESS",$documents);
+        
+    }
     public function updateCompanyDocuments(companyDocumentRequest $request, $company)
     {
       $path =$request->file('filename')->store('documents','my_files');

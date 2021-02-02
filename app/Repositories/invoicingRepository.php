@@ -32,6 +32,12 @@ class invoicingRepository implements invoicingInterface{
          return $this->success('success',$invoices);
     }
 
+    public function getInvoices($company)
+    {
+        $invoices = online_invoice::where(['company_id'=>$company])->with('category')->get();
+        return $this->success('success',$invoices); 
+    }
+
     public function addItem(addInvoiceRequest $request, $company)
     {
          $invoice_number = $this->helper->get_invoice_number($company,$request->year);

@@ -47,6 +47,60 @@ class onlinepaymentRepository implements onlinepaymentInterface{
         return $this->error('No pending invoices found',500);
     }
 
+    public function getAll($company){
+        $data = onlinepayments::wherecompany_id($company->id)->get();
+        return $this->success("SUCCESS",$data);
+    }
+
+    public function check_by_id($id,$company){
+        $paynow = $this->helper->paynowOnline();
+        $payment = onlinepayments::whereid($id)->orderBy('id','desc')->first();
+        if(!is_null($payment)){
+           $users = User::wherecompany_id($company)->get();
+           $status = $paynow->pollTransaction($payment->poll_url);
+
+           if($status->paid()){
+               $payment->status ="PAID";
+               $payment->save();
+
+               $receiptnumber = $this->helper->get_receipt_number();
+
+               receipt::firstOrCreate(['source_id'=>$payment->id,'method'=>'PAYNOW'],
+                                    [
+                                      'invoicenumber'=>$payment->invoice_number,
+                                      'source_id'=>$payment->id,
+                                      'receiptnumber'=>$receiptnumber,
+                                      'company_id'=>$company,
+                                      'method'=>$payment->mode,
+                                      'currency'=>$payment->invoice->currency->name,
+                                      'amount'=>$payment->amount,
+                                      'user_id'=>Auth::user()->id
+                                      ]);
+
+                                      $array = $this->helper->invoice_settlement_status($payment->invoice_number);
+                                      $message =$payment->invoice->currency->name."".$payment->amount."Successfully receipted. ".$array['message'];
+                                      event(new paymentEvent($users,$message));
+                                      if($array['status']=='success'){
+                                        $data = onlinepayments::wherecompany_id($company)->get();
+                                              return $this->success($array['message'],$data);
+                                      }else{
+                                         $message =$payment->invoice->currency->name."".$payment->amount."was  successful ".$array['message'];
+                                         event(new paymentEvent($users,$message));
+                                         return $this->error($array['message'],500);
+                     
+                                      }
+                                     
+              
+       
+           }
+       else{
+           $message =$payment->invoice->currency->name."".$payment->amount."was ".$status->status();
+           event(new paymentEvent($users,$message));
+            return $this->error($status->errors(true),500);
+       }
+        }
+    }
+
     public function check($company)
     {
          $paynow = $this->helper->paynowOnline();

@@ -18,6 +18,9 @@
                         <th class="text-left">
                         Description
                         </th>
+                          <th class="text-left">
+                        Account number
+                        </th>
                          <th class="text-left">
                            Currency
                         </th>
@@ -34,6 +37,7 @@
                         >
                         <td>{{ item.created_at }}</td>
                         <td>{{ item.description }}</td>
+                         <td>{{ item.accountnumber }}</td>
                         <td>{{ item.currency}}</td>
                          <td>{{ item.amount}}</td>                        
                         </tr>
@@ -62,21 +66,6 @@
                     ></v-progress-linear>
                     </v-card-text>
                 </v-card>
-                </v-dialog>
-                <v-dialog v-model="updateDialog" hide-overlay max-width="300">
-                    <v-form ref="form" v-model="valid" lazy-validation>
-                    <v-card>
-                        <v-card-title>
-                            Update Bank Payments
-                        </v-card-title>
-                        <v-card-text>
-                           <v-text-field v-model="refnumber" outlined :rules="refRule"></v-text-field>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-btn outlined color="green" @click="update">Update</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                    </v-form>
                 </v-dialog>
                     <v-snackbar
                     v-model="snackbar"
@@ -112,34 +101,13 @@ export default {
             this.loading = true
             general.getBankpayments().then(response=>{
                 this.loading = false
-                this.payments = response.data.payments
+                this.payments = response.data.data
             }).catch(error=>{
                    this.loading = false
                   this.snackbar = true
                   this.color="red"
                   this.message =error.response.data.message
               })
-        },
-        update(){
-            if(this.$refs.form.validate()){
-                let formData = new FormData()
-                formData.append('refnumber',this.refnumber)
-                this.loading = true
-              general.updateStatement(formData).then(response=>{
-                 this.loading = false
-                  this.loading = false
-                  this.snackbar = true
-                  this.color="green"
-                  this.message ='Bank transactions successfully updated'
-                  this.payments = response.data.payments
-                  this.updateDialog = false
-              }).catch(error=>{
-                   this.loading = false
-                  this.snackbar = true
-                  this.color="red"
-                  this.message =error.response.data.message
-              })
-            }
         }
     }
 }

@@ -106,6 +106,7 @@ Route::group(['prefix'=>'auth'],function(){
     Route::post('uploadDocument',[registrationDocumentsController::class,'upload']);
     Route::post('updateProfile',[dashboardController::class,'update']);
     Route::get('invoices',[invoicingController::class,'index']);
+    Route::get('getinvoices',[invoicingController::class,'getAll']);
     Route::post('addInvoice',[invoicingController::class,'add']);   
     Route::delete('removeItem/{id}',[invoicingController::class,'destroy']);
     Route::get('/printinvoice/{inv}',[invoicingController::class,'download']);

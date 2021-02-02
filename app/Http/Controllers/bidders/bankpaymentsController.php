@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers\bidders;
 
-use App\banktransactions;
+use App\Helpers\generalHelpers;
 use App\Http\Controllers\Controller;
-use App\online_invoice;
-use App\supplier;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Interfaces\bidder\bankpaymentsInterface;
 
 class bankpaymentsController extends Controller
 {
+    private $bank;
+    private $helper;
+    public function __construct(bankpaymentsInterface $bank,generalHelpers $helper)
+    {
+         $this->bank = $bank;
+         $this->helper = $helper;
+    }
      public function index(){
-         $payments = banktransactions::wherecustomer_number(Auth::user()->company->regnumber)->get();
-         return response()->json(['payments'=>$payments],200);
+        return $this->bank->getlist($this->helper->getCompany());
      }
 
   

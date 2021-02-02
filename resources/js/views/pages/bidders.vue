@@ -7,14 +7,14 @@
       large
     ></v-breadcrumbs>
         <v-card>
-            <v-card-title>
-                <div>Category List</div>
-                <v-spacer></v-spacer>
-                <v-text-field outlined v-model="filter" label="Filte Category"></v-text-field>
-
+            <v-card-title>               
+             Current Registered Suppliers
             </v-card-title>
             <v-card-text>
-               
+                <div>
+                        <v-text-field outlined v-model="filter" label="Search for Category"></v-text-field>
+
+                </div>
             <v-expansion-panels>
                 <v-expansion-panel
                 v-for="cat in  filterCategories"

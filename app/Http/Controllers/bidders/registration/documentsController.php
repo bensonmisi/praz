@@ -19,8 +19,8 @@ class documentsController extends Controller
         $this->helper = $helper;
     }
    public function index(){
-       $company = $this->helper->getCompanyById();
-    return $this->helper->getCompanyDocuments($company);
+       $company = $this->helper->getCompany();
+    return $this->document->getDocuments($company);
    }
    public function upload(companyDocumentRequest $request){
     $company = $this->helper->getCompanyById(); 

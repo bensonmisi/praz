@@ -43,14 +43,32 @@
       </v-app-bar-nav-icon>
       <v-spacer></v-spacer>
       <div class="d-flex">
-       <v-btn icon>
-              <v-icon>fa fa-bell-o</v-icon>
-              <v-badge
-          color="red"
-          :content="getMessagesCount"
-        >         
-        </v-badge>
-      </v-btn>
+           <v-menu offset-y>
+             <template v-slot:activator="{ attrs, on }">
+            <v-btn icon  
+            v-bind="attrs"
+             v-on="on">
+                    <v-icon>fa fa-bell-o</v-icon>
+                    <v-badge
+                color="red"
+                :content="getMessagesCount"
+              >         
+              </v-badge>
+            </v-btn>
+             </template>
+              <v-list>
+
+              <v-list-item v-for="msg in getMessages" active-class="grey" :key="msg.id" link :to="msg.action">       
+                      <v-list-item-content>
+                <v-list-item-subtitle v-text="msg.message"></v-list-item-subtitle>
+
+                <v-list-item-subtitle v-text="msg.created_at "></v-list-item-subtitle>
+              </v-list-item-content>
+             
+              </v-list-item>
+            
+            </v-list>
+           </v-menu>
       <div>
         <v-menu
       offset-y

@@ -108,7 +108,7 @@
 <script>
 
 import uplodaDocument from './upload.vue'
-export default {
+export default { 
     data(){
         return{
                documents:[],

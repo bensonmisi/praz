@@ -3,33 +3,19 @@
      
             <v-card>
                 <v-card-title>
-                    Bank Payments
+                   Online Payments
                 </v-card-title>
                 <v-card-text>
-            <v-simple-table>
+                
+            <v-simple-table dense>
                  
                     <thead>
                         <tr>
                             <th class="text-left">
-                                Date
+                              Details
                             </th>
                             <th class="text-left">
-                            Invoice Number
-                            </th>
-                            <th class="text-left">
-                            Type
-                            </th>
-                            <th class="text-left">
-                            Amount
-                            </th>
-                            <th class="text-left">
-                            Mode
-                            </th>
-                            <th class="text-left">
-                        Status
-                            </th>
-                            <th class="text-center">
-                        
+                            Status
                             </th>
                          
                         </tr>
@@ -39,16 +25,27 @@
                         v-for="item in payments"
                         :key="item.id"
                         >
-                        <td>{{ item.created_at }}</td>
-                        <td>{{ item.invoice_number }}</td>
-                        <td>{{ item.type}}</td>
-                         <td>{{ item.amount}}</td>  
-                         <td>{{ item.mode}}</td>    
-                        <td>{{ item.status}}</td> 
                         <td>
-                          <v-btn v-if="item.status=='PENDING'" rounded outlined color="primary" @click="checkpayment(item.id)">check</v-btn>
-                     
-                        </td>                     
+                            <div>
+                            {{ item.created_at }}
+                            </div>
+                            <div>
+                             {{ item.invoice_number }}
+                            </div>
+                            <div>
+                             {{ item.type}}
+                            </div>
+                            <div>{{ item.mode}}</div>
+                            <div>${{ item.amount}}</div>
+                            
+                        </td>     
+                        <td>
+                             <v-btn v-if="item.status=='PENDING'" rounded outlined color="primary" small @click="checkpayment(item.id)">check</v-btn>
+                             <div v-else>
+                            {{ item.status}}
+                             </div>
+                            </td> 
+                                             
                         </tr>
                     </tbody>
                 
@@ -104,7 +101,7 @@ export default {
             this.loading = true
             general.getOnlinepayments().then(response=>{
                 this.loading = false
-                this.payments = response.data.payments
+                this.payments = response.data.data
             }).catch(error=>{
                 this.loading = false
                 this.snackbar = true
@@ -113,10 +110,10 @@ export default {
             })
         },
         checkpayment(id){
-            this.loading = true
+            this.loading = true 
             general.checkPayment(id).then(response=>{
                 this.loading = false
-                this.payments = response.data.payments
+                this.payments = response.data.data
             }).catch(error=>{
                 this.loading = false
                 this.snackbar = true

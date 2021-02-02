@@ -20,7 +20,7 @@ use App\receipt;
 use App\supplier;
 use App\transfers;
 use Illuminate\Support\Facades\Auth;
-
+use DB;
 class generalHelpers{
 
     public function getCompanyById()
@@ -53,9 +53,9 @@ class generalHelpers{
     }
 
 
-   public function checkCompany($currentname,$compare_name)
+   public function checkCompany($name)
     {
-        $cleanname =  preg_replace('/\s+/', '', $currentname);
+        /* $cleanname =  preg_replace('/\s+/', '', $currentname);
         $cleanname = str_ireplace('(Private)Limited','',$currentname);
         $cleanname = str_ireplace('P/L','',$currentname);
         $cleanname = str_ireplace('PrivateLimited','',$currentname);
@@ -77,7 +77,39 @@ class generalHelpers{
                     else{
                         return false;
                     }
-                                
+                           */   
+                          
+                          $cleanname =  preg_replace('/\s+/', '', $name);
+                          $cleanname = str_ireplace('(Private)Limited','',$cleanname);
+                          $cleanname = str_ireplace('P/L','',$cleanname);
+                          $cleanname = str_ireplace('PrivateLimited','',$cleanname);
+                          $cleanname = str_ireplace('Investments','',$cleanname);
+                          $cleanname = str_ireplace('Investment','',$cleanname);
+                          $cleanname = str_ireplace('Pvtltd','',$cleanname);
+                          $first_three_letters = substr($cleanname,0,4);
+                          $customers =  DB::select("select * from companies where name LIKE '%".$first_three_letters."%'");
+                           if(count($customers)>0)
+                           {
+                              foreach ($customers as $key => $value) {
+                                  //$request_array = str_split(strtoupper($cleanname));
+                                  $db_name = preg_replace('/\s+/', '', $value->name);
+                                  $db_name = str_ireplace('(Private)Limited','',$db_name);
+                                  $db_name = str_ireplace('P/L','',$db_name);
+                                  $db_name = str_ireplace('PrivateLimited','',$db_name);
+                                  $db_name = str_ireplace('Investments','',$db_name);
+                                  $db_name = str_ireplace('Investment','',$db_name);
+                                  $db_name = str_ireplace('Pvtltd','',$db_name);
+                                  $compare = strcasecmp(strtoupper($cleanname),strtoupper(preg_replace('/\s+/', '', $db_name)));
+                                    if($compare==0)
+                                      {
+                                          return $value->id;
+                                      }
+                                     
+                                                   
+                              } 
+                              return 0;
+                           }
+                  
         
         
             

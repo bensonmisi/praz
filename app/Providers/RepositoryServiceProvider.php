@@ -10,6 +10,7 @@ use App\Interfaces\bidder\mobilePaymentsInterface;
 use App\Interfaces\bidder\onlinepaymentInterface;
 use App\Interfaces\bidder\profileInterface;
 use App\Interfaces\bidder\profileRepository;
+use App\Interfaces\bidder\receiptInterface;
 use App\Interfaces\generalInterface;
 use App\Interfaces\welcomeInterface;
 use App\Repositories\AuthRepository;
@@ -19,6 +20,7 @@ use App\Repositories\generalRepository;
 use App\Repositories\invoicingRepository;
 use App\Repositories\mobilePaymentRepository;
 use App\Repositories\onlinepaymentRepository;
+use App\Repositories\receiptRepository;
 use App\Repositories\welcomeRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -40,6 +42,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(onlinepaymentInterface::class,onlinepaymentRepository::class);
         $this->app->bind(bankpaymentsInterface::class,bankpaymentsRepository::class);
         $this->app->bind(welcomeInterface::class,welcomeRepository::class);
+        $this->app->bind(receiptInterface::class,receiptRepository::class);
     }
 
     /**

@@ -28,7 +28,7 @@ class loginController extends Controller
                 'user'=>$user,
                 'access_token'=>$tokenData->accessToken,
                 'token_type'=>'Bearer',
-                'token_scope'=>$tokenData->token->scopes[0],
+                'token_scope'=>$tokenData->token->scopes[0], 
                 'status_code'=>200
             ]);
          }else{

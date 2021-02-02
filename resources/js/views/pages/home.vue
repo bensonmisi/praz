@@ -27,49 +27,7 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="4">
-                  <v-card>
-                    <v-card-text>
-                  <v-list dense>    
-                    <v-list-item-group color="primary">
-                      <v-list-item link :to="{name:'How-to-register'}">        
-                        <v-list-item-content>
-                          <v-list-item-title>How do i register as a supplier</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-divider></v-divider>
-                       <v-list-item link :to="{name:'foreign-registration'}">        
-                        <v-list-item-content>
-                          <v-list-item-title>Can foreign companies register as suppliers</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-divider></v-divider>
-                      <v-list-item link :to="{name:'registration-proof'}">        
-                        <v-list-item-content>
-                          <v-list-item-title>What do i get as proof of registration</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-divider></v-divider>
-                      <v-list-item link :to="{name:'how-much'}">        
-                        <v-list-item-content>
-                          <v-list-item-title>How much is it to register</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                      <v-divider></v-divider>
-                      <v-list-item link :to="{name:'Forgot'}">        
-                        <v-list-item-content>
-                          <v-list-item-title>I forgot  our login details</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                       <v-divider></v-divider>
-                        <v-list-item link :to="{name:'registration-benefits'}">        
-                        <v-list-item-content>
-                          <v-list-item-title>What are the benefits of registering</v-list-item-title>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-item-group>
-                  </v-list>
-                    </v-card-text>
-  </v-card>
+                  <faqs></faqs>
                 </v-col>
                 <v-col cols="12" sm="4">
                   <v-card class="text-center ">
@@ -96,9 +54,11 @@
 </template>
 <script>
 import bankindetails   from '../../components/bankingdetails.vue'
+import faqs from '../../components/faqs/sidebar.vue'
 export default {
   components:{
-    bankindetails
+    bankindetails,
+    faqs
   },
   data(){
   return{ 

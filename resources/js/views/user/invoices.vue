@@ -17,6 +17,12 @@
                          Invoice Number
                         </th>
                         <th class="text-left">
+                         Category
+                        </th>
+                        <th class="text-left">
+                         Cost
+                        </th>
+                        <th class="text-left">
                            Status
                         </th>
                          <th class="text-center">
@@ -31,6 +37,8 @@
                         >
                         <td>{{ item.created_at }}</td>
                         <td>{{ item.invoice_number }}</td>
+                        <td>{{ item.category.code }}</td>
+                         <td>{{ item.cost}}</td>
                         <td>{{ item.status}}</td>
                         <td>
                               <v-btn rounded outlined color="primary" @click="printInvoice(item.invoice_number)">Print</v-btn>
@@ -80,7 +88,7 @@ export default {
             this.loading = true
             invoices.getInvoices().then(response=>{
                 this.loading = false
-                this.invoices = response.data.invoices
+                this.invoices = response.data.data
             }).catch(error=>{
 
             })

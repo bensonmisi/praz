@@ -2,30 +2,25 @@
 
 namespace App\Http\Controllers\bidders;
 
+use App\Helpers\generalHelpers;
 use App\Http\Controllers\Controller;
-use App\receipt;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Services\ReceiptPdf;
+use App\Interfaces\bidder\receiptInterface;
 
 class receiptsController extends Controller
 {
-    protected $pdf;
-
-    public function __construct(ReceiptPdf $pdf)
+    private $receipt;
+    private $helper;
+    public function __construct(receiptInterface $receipt,generalHelpers $helper)
     {
-        $this->pdf = $pdf;
+        $this->receipt = $receipt;
+        $this->helper = $helper;
     }
 
      public function index(){
-         $receipts = receipt::wherecompany_id(Auth::user()->company->id)->get();
-         return response()->json(['receipts'=>$receipts],200);
+          return $this->receipt->getReceipts($this->helper->getCompany());
+   
      }
      public function download($rpt){
-        $receipt = receipt::wherereceiptnumber($rpt)->first();
-        return response($this->pdf->generate($rpt), 200)->withHeaders([
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => "{$this->pdf->action()}; filename='receipt-{$receipt->receiptnumber}.pdf'",
-        ]);
+      return $this->receipt->downloadReceipt($rpt);
     }
 }
