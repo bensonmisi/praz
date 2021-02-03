@@ -25,3 +25,6 @@ export function downloadCertificate(id){
   export function updateREF(data){
       return http().post('updatereference',data)
   }
+  export function changeCategory(data){
+      return http().post('changeCategory',data);
+  }

@@ -23,7 +23,8 @@ export default new Vuex.Store({
     documentstatus:false,
     regyear:[],
     companydocuments:[],
-    messages:[]
+    messages:[],
+    registrations:[]
 
   },
   mutations: {
@@ -75,6 +76,9 @@ export default new Vuex.Store({
     },
     setMessages(state,payload){
       state.messages = payload
+    },
+    setRegistrations(state,payload){
+      state.registrations = payload
     }
   },
   actions: {
@@ -125,6 +129,8 @@ export default new Vuex.Store({
     },
     setMessages(context,payload){
       context.commit('setMessages',payload);
+    },setRegistrations(context,payload){
+      context.commit('setRegistrations',payload)
     }
 
 

@@ -25,6 +25,8 @@ class certificateController extends Controller
         {
             if($supplier->expire_year == Carbon::now()->year || $supplier->status == 'APPRoVED')
             {
+                $supplier->printed = $supplier->printed+1;
+                $supplier->save();
                 return response($this->pdf->generate($id), 200)->withHeaders([
                     'Content-Type' => 'application/pdf',
                     'Content-Disposition' => "{$this->pdf->action()}; filename='certificate-{$supplier->code}.pdf'",

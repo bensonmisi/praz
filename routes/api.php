@@ -94,7 +94,8 @@ Route::group(['prefix'=>'auth'],function(){
      */
     Route::get('dashboard',[dashboardController::class,'index']);
     Route::post('claimReceipt',[dashboardController::class,'claimReceipt']);
-    Route::post('confirmReceipt',[dashboardController::class,'confirmReceipt']);    
+    Route::post('confirmReceipt',[dashboardController::class,'confirmReceipt']);   
+    Route::post('changeCategory',[dashboardController::class,'change']);
     Route::get('onlinepayments',[onlineController::class,'index']);
     Route::get('checkonlinepayment',[onlineController::class,'check']);
     Route::get('internal/{currency}',[internalController::class,'index']);

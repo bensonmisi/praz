@@ -100,6 +100,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -260,25 +273,62 @@ var render = function() {
                                           _vm._v(_vm._s(comp.company.city))
                                         ]),
                                         _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(
-                                              comp.company.contacts.address
-                                            )
-                                          )
-                                        ]),
+                                        _c(
+                                          "td",
+                                          [
+                                            comp.company.contacts
+                                              ? [
+                                                  _vm._v(
+                                                    "\n                                     " +
+                                                      _vm._s(
+                                                        comp.company.contacts
+                                                          .address
+                                                      ) +
+                                                      "\n                                "
+                                                  )
+                                                ]
+                                              : _vm._e()
+                                          ],
+                                          2
+                                        ),
                                         _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(comp.company.contacts.emails)
-                                          )
-                                        ]),
+                                        _c(
+                                          "td",
+                                          [
+                                            comp.company.contacts
+                                              ? [
+                                                  _vm._v(
+                                                    "\n                                " +
+                                                      _vm._s(
+                                                        comp.company.contacts
+                                                          .emails
+                                                      ) +
+                                                      "\n                                 "
+                                                  )
+                                                ]
+                                              : _vm._e()
+                                          ],
+                                          2
+                                        ),
                                         _vm._v(" "),
-                                        _c("td", [
-                                          _vm._v(
-                                            _vm._s(comp.company.contacts.phones)
-                                          )
-                                        ])
+                                        _c(
+                                          "td",
+                                          [
+                                            comp.company.contacts
+                                              ? [
+                                                  _vm._v(
+                                                    "\n                                " +
+                                                      _vm._s(
+                                                        comp.company.contacts
+                                                          .phones
+                                                      ) +
+                                                      "\n                                 "
+                                                  )
+                                                ]
+                                              : _vm._e()
+                                          ],
+                                          2
+                                        )
                                       ])
                                     })
                                   : [

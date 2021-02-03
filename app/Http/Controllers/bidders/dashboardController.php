@@ -4,6 +4,7 @@ namespace App\Http\Controllers\bidders;
 
 use App\Helpers\generalHelpers;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\changeRequest;
 use App\Http\Requests\companyDocumentRequest;
 use App\Http\Requests\companyPofileRequest;
 use App\Interfaces\bidder\documentInterface;
@@ -47,6 +48,11 @@ class dashboardController extends Controller
         $company = $this->general->getCompanyById();
         return $this->profile->updateCompanyProfile($request,$company);
 
+    }
+
+    public function change(changeRequest $request){
+        $company = $this->general->getCompanyById();
+        return $this->profile->changeCategory($request,$company);
     }
 
 

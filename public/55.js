@@ -490,7 +490,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************!*\
   !*** ./resources/js/services/dashboard_service.js ***!
   \****************************************************/
-/*! exports provided: getDashboard, uploadDocument, updateProfile, downloadCertificate, claimReceipt, confirmReceipt, verify, updateREF */
+/*! exports provided: getDashboard, uploadDocument, updateProfile, downloadCertificate, claimReceipt, confirmReceipt, verify, updateREF, changeCategory */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -503,6 +503,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "confirmReceipt", function() { return confirmReceipt; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "verify", function() { return verify; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateREF", function() { return updateREF; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "changeCategory", function() { return changeCategory; });
 /* harmony import */ var _services_http_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/http_service */ "./resources/js/services/http_service.js");
 
 function getDashboard() {
@@ -530,6 +531,9 @@ function verify(id) {
 }
 function updateREF(data) {
   return Object(_services_http_service__WEBPACK_IMPORTED_MODULE_0__["http"])().post('updatereference', data);
+}
+function changeCategory(data) {
+  return Object(_services_http_service__WEBPACK_IMPORTED_MODULE_0__["http"])().post('changeCategory', data);
 }
 
 /***/ })

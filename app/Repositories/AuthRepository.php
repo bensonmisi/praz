@@ -8,11 +8,13 @@ use App\Http\Requests\AccountCreationRequest;
 use App\Http\Requests\loginRequest;
 use App\Http\Requests\passwordResetRequest;
 use App\Interfaces\bidder\AuthInterface;
+use App\password_resets;
 use App\Traits\ResponseAPI;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\company;
 use App\User;
 
 class AuthRepository implements AuthInterface{

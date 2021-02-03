@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-card flat>
+    <v-card>
         <v-card-title class="green lighten-4 mt-4">
             <span>Registered Supplier Categories</span>
             
@@ -40,10 +40,10 @@
                    
                 </v-col>
                              
-                <v-col  sm="2">                     
+                <v-col  sm="2" class="d-flex">                     
                     <div class="d-flex justify-center" v-if="reg.status=='APPROVED'"> 
                           <div v-if="reg.expire_year == currentyear">
-                          <v-btn rounded depressed class="blue white--text hidden-sm-and-down" @click="downloadCertificate(reg.id)">Download</v-btn>
+                          <v-btn rounded depressed small class="blue white--text hidden-sm-and-down" @click="downloadCertificate(reg.id)">Download</v-btn>
                           <v-btn rounded  icon class="blue white--text hidden-md-and-up"  @click="downloadCertificate(reg.id)">
                                <v-icon>fa fa-download</v-icon>
                           </v-btn>
@@ -56,6 +56,10 @@
                        <div v-else-if="reg.status=='PENDING'" class="red--text">
                              Awaiting Document Verification    
                           </div>
+
+                          <div v-if="reg.printed == 0">
+                              <change :registration="reg.id"></change>
+                          </div>
                 </v-col>
             </v-row>         
              <v-divider></v-divider>
@@ -64,7 +68,7 @@
                 </div>
                 <div v-else>
                       <div class="red--text text-center pa-10">No registrations found for the current year.Please note all registration for previous years have expire please  click button below to register your prefered categories </div>
-                       <div class=" d-flex justify-center"><v-btn rounded color="green" small  @click="startRegistration">Register now</v-btn></div>
+                       <div class=" d-flex justify-center"><v-btn rounded color="green" small link  :to="{name:'Registration_Documents'}">Register now</v-btn></div>
               </div>     
          
          
@@ -105,8 +109,12 @@
 </template>
 <script>
 import * as registrations  from '../../../services/dashboard_service'
+import change from './change.vue'
 export default {
     props:['registrations'],
+    components:{
+     change
+    },
     data(){
         return{
             currentyear : new Date().getFullYear(),

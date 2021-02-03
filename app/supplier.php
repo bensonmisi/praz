@@ -27,7 +27,8 @@ class supplier extends Model
             "id"=>$this->id,
             "expire_year"=>$this->expire_year,
             "category"=>$this->category,
-            "status"=>$this->status
+            "status"=>$this->status,
+            "printed"=>$this->printed
         ];
     }
 }

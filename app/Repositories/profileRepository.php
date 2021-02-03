@@ -7,10 +7,13 @@ use App\company_contacts;
 use App\company_documents;
 use App\Events\messageActioned;
 use App\Helpers\generalHelpers;
+use App\Http\Requests\changeRequest;
 use App\Http\Requests\companyDocumentRequest;
 use App\Http\Requests\companyPofileRequest;
 use App\Http\Requests\userPofileRequest;
+use App\Interfaces\generalInterface;
 use App\messages;
+use App\supplier;
 use App\Traits\ResponseAPI;
 use App\User;
 
@@ -18,9 +21,11 @@ class profileRepository implements profileInterface{
   
      use ResponseAPI;
     private $helper;
-     public function __construct(generalHelpers $helper )
+    private $general;
+     public function __construct(generalHelpers $helper, generalInterface $general)
      {
       $this->helper = $helper; 
+      $this->general = $general;
      }
 
     public function updateUserProfile(userPofileRequest $request,$user){
@@ -52,6 +57,26 @@ class profileRepository implements profileInterface{
 
           return $this->success('Successfully Updated Account Profile',$data);
   
+    }
+
+    public function changeCategory(changeRequest $request, $company)
+    {
+          $registration  =  supplier::where(['company_id'=>$company,'id'=>$request->id])->first();
+
+          if(!is_null($registration)){
+               if((int)$registration->printed == 0)
+               {
+                    $registration->category_id = $request->category;
+                    $request->expire_year = $request->regyear;
+                    $registration->save();
+                     $data = $this->general->getRegistrations($company);
+                     return $this->success('Category successfully changed',$data);
+               }else{
+                  return $this->error("Certificate for current category already downloaded therefore cannot be changed",500);     
+               }
+          }else{
+              return $this->error("Registration not found",500);   
+          }
     }
 
    

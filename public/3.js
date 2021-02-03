@@ -860,7 +860,7 @@ __webpack_require__.r(__webpack_exports__);
         if (_this2.balance > 0) {
           _this2.internalDialog = true;
         } else {
-          _this2.referenceDialog = true;
+          _this2.uploadDialog = true;
         }
       })["catch"](function (error) {
         _this2.loading = false;

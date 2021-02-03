@@ -126,7 +126,6 @@ export default {
             color:'',
             awaitinginvoices:[],
             pendinginvoices:[],
-            registrations:[],
           
 
 
@@ -140,9 +139,10 @@ export default {
      messages,
      faqs,
      registationtutorial
-    },mounted(){
-        this.profile()
+    },created(){
+      
         this.dashboard()
+          this.profile()
     },
     methods:{
       profile(){
@@ -161,9 +161,9 @@ export default {
           this.$store.dispatch('setCurrencylist',response.data.data.currency)
           this.$store.dispatch('setTypes',response.data.data.types)
           this.$store.dispatch('setMessages',response.data.data.messages)
+          this.$store.dispatch('setRegistrations',response.data.data.registrations)
           this.awaitinginvoices = response.data.data.awaiting
           this.pendinginvoices= response.data.data.pending
-          this.registrations = response.data.data.registrations
         
         
             if(response.data.data.profile.accounttype == '' ||  response.data.data.profile.country == '' || response.data.data.profile.contacts == null )
@@ -178,6 +178,10 @@ export default {
                this.message = error
           })
       }
+    },computed:{
+        registrations(){
+            return this.$store.state.registrations
+        }
     }
 }
 </script>

@@ -38,10 +38,23 @@
                             <template v-if="cat.suppliers.length">
                             <tr v-for="comp in cat.suppliers" :key="comp.id">
                                 <td>{{comp.company.name}}</td>
-                                <td>{{comp.company.city}}</td>
-                                <td>{{comp.company.contacts.address}}</td>
-                                <td>{{comp.company.contacts.emails}}</td>
-                                <td>{{comp.company.contacts.phones}}</td>
+                                <td>{{comp.company.city}}</td>                                
+                                <td>
+                                    <template v-if="comp.company.contacts">
+                                         {{ comp.company.contacts.address}}
+                                    </template>
+                                   
+                            </td>
+                                <td>
+                                     <template v-if="comp.company.contacts">
+                                    {{comp.company.contacts.emails}}
+                                     </template>
+                            </td>
+                                <td>
+                                     <template v-if="comp.company.contacts">
+                                    {{comp.company.contacts.phones}}
+                                     </template>
+                                </td>
                             </tr>
                             </template>
                             <template v-else>

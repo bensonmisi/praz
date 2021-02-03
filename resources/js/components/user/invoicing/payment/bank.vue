@@ -243,7 +243,7 @@ export default {
                  }
                  else
                  {
-                     this.referenceDialog = true
+                     this.uploadDialog = true
                  }
       
 

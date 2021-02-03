@@ -128,9 +128,7 @@ import * as auth from '../services/auth_service'
           { title: 'Bank payments', icon: 'fa fa-dollar',link:'bankpayments',scope:'bidder' },
           { title:'Account Documents', icon: 'fa fa-folder-open',link:'documents',scope:'bidder' },
           { title:'Online payments', icon: 'fa fa-dollar',link:'onlinepayments',scope:'bidder' },
-          { title: 'Users', icon: 'fa fa-users',link:'users' ,scope:'bidder'},
-          { title: 'Procurements', icon: 'fa fa-bullhorn',link:'tenders',scope:'bidder' },
-          { title: 'Bid Bonds', icon: 'fa fa-money',link:'Bidbonds' ,scope:'bidder'}
+          { title: 'Users', icon: 'fa fa-users',link:'users' ,scope:'bidder'}
         ],
         right: null,
         drawer: null ,
