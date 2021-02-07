@@ -34,7 +34,7 @@
           </v-list-item-content>
         </v-list-item>
       </template>
-      <v-list>
+      <v-list dense>
         <v-list-item
           v-for="submodule in item.submodules"
           :key="submodule.id"
@@ -134,9 +134,9 @@ import * as auth from '../services/auth_service'
            }
          })
        },getProfile(){
-       this.role = auth.getCompany().token_scope
-       this.name = auth.getCompany().user.name +' '+auth.getCompany().user.surname
-       this.items = auth.getCompany().user.role.modules
+       this.role = auth.getCompany().user.token_scope
+       this.name = auth.getCompany().user.user.name +' '+auth.getCompany().user.user.surname
+       this.items = auth.getCompany().user.user.role.modules
        }
     }
   }

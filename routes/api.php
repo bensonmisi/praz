@@ -4,6 +4,7 @@ use App\Http\Controllers\administrator\accounttypeController;
 use App\Http\Controllers\administrator\categoryController;
 use App\Http\Controllers\administrator\companyController;
 use App\Http\Controllers\administrator\currencyController;
+use App\Http\Controllers\administrator\dashboardController as AppDashboardController;
 use App\Http\Controllers\administrator\documentController;
 use App\Http\Controllers\administrator\entity\capController;
 use App\Http\Controllers\administrator\entity\classificationController;
@@ -33,6 +34,7 @@ use App\Http\Controllers\administrator\suppliers\categoryController as Suppliers
 use App\Http\Controllers\administrator\suppliers\generalController;
 use App\Http\Controllers\administrator\suppliers\monthlyController;
 use App\Http\Controllers\administrator\suppliers\yearlyController;
+use App\Http\Controllers\administrator\taskController;
 use App\Http\Controllers\administrator\userController as AdministratorUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\bidders\bankpaymentsController;
@@ -143,6 +145,8 @@ Route::group(['prefix'=>'auth'],function(){
 
   Route::group(['middleware'=>['auth:api','checkSubModule','scope:administrator']],function(){
     Route::group(['prefix'=>'administrator'],function(){
+         Route::get('/',[AppDashboardController::class,'index'])->name('admin.index');
+         Route::post('passwordChange',[AppDashboardController::class,'change'])->name('admin.passwordchnage');
          Route::get('roles',[roleController::class,'index'])->name('admin.roles');
          Route::get('sections',[sectionController::class,'index'])->name('admin.sections');
          Route::get('categorylist',[categoryController::class,'index'])->name('admin.category');
@@ -162,9 +166,10 @@ Route::group(['prefix'=>'auth'],function(){
          Route::get('banktransactions',[bankController::class,'index'])->name('admin.transactions.index');
          Route::get('onlinetransactions',[FinanceOnlineController::class,'index'])->name('admin.onlinepayments.index');
          Route::get('gazzate',[gazateController::class,'index'])->name('admin.gazzatte.index');
-         Route::get('rtgs/pending',[rtgsController::class,'pending'])->name('admin.rtgs');
+         Route::get('rtgs',[rtgsController::class,'index'])->name('admin.rtgs');
          Route::get('reports/invoices',[invoiceController::class,'index'])->name('admin.finance.index');
-         Route::post('company',[companyController::class,'index'])->name('admin.customer');         
+         Route::post('company',[companyController::class,'index'])->name('admin.customer'); 
+         Route::get('getUsers',[taskController::class,'getUsers'])->name('admin.getUsers');        
          Route::post('suppliers/pending',[companyController::class,'index'])->name('can_suppliers_pending');
          Route::get('suppliers/monthly',[monthlyController::class,'index'])->name('can_suppliers_monthly');
          Route::get('suppliers/yearly',[yearlyController::class,'index'])->name('can_suppliers_yearly');
@@ -184,8 +189,10 @@ Route::group(['prefix'=>'auth'],function(){
     Route::post('role',[roleController::class,'store'])->name('can_add_role');
     Route::post('banktransactions',[bankController::class,'search'])->name('admin.transactions.search');    
     Route::post('onlinetransactions',[FinanceOnlineController::class,'search'])->name('admin.onlinepayments.search');
+    Route::post('assignUser',[taskController::class,'assign'])->name('admin.task.assign');
+    Route::get('comments/{identifier}',[taskController::class,'comments'])->name('admin.task.comments');
     Route::post('banktransactions/download',[bankController::class,'download'])->name('admin.transactions.download');
-    Route::post('onlinetransactions/download',[FinanceOnlineController::class,'download'])->name('admin.onlinepayments.download');
+    Route::post('onlinetransactions/download',[FinanceOnlineController::class,'download'])->name('admin.onlinepayments.download'); 
     Route::post('role/{role}',[roleController::class,'update'])->name('can_edit_role');
     Route::delete('role/{id}',[roleController::class,'destroy'])->name('can_remove_role');
     Route::post('exchange',[exchangeController::class,'store'])->name('can_add_exchange');
@@ -212,9 +219,11 @@ Route::group(['prefix'=>'auth'],function(){
     Route::post('user',[AdministratorUserController::class,'store'])->name('can_add_user');
     Route::post('user/{administrator}',[AdministratorUserController::class,'update'])->name('can_edit_user');
     Route::get('rtgs/show/{id}',[rtgsController::class,'show'])->name('can_view_rtgs');
+    Route::get('rtgs/invoice/{invoicenumber}',[rtgsController::class,'getInvoice'])->name('can_view_invoice');
     Route::get('rtgs/statement/{currency}',[rtgsController::class,'statement'])->name('can_view_statement');
     Route::post('rtgs/statement',[rtgsController::class,'store'])->name('can_store_statement');
     Route::get('rtgs/comments/{id}',[rtgsController::class,'comments'])->name('can_view_comments');
+    Route::post('rtgs/reverse',[rtgsController::class,'reverse'])->name('can_rtgs_reversed');
     Route::post('rtgs/comments',[rtgsController::class,'saveComment'])->name('can_save_comment');
     Route::get('company/{id}',[companyController::class,'show'])->name('can_show_customer');
     Route::post('company/update',[companyController::class,'update'])->name('can_update_customer');

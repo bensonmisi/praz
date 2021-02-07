@@ -1,11 +1,15 @@
 import {http,httpFile} from '../services/http_service';
 
 export function getRtgs(){
-  return  http().get('administrator/rtgs/pending')
+  return  http().get('administrator/rtgs')
 }
 
 export function showRtgs(id){
     return http().get('administrator/rtgs/show/'+id)
+}
+
+export function retrieveInvoice(invoicenumber){
+    return http().get('administrator/rtgs/invoice/'+invoicenumber)
 }
 
 export function getStatement(currency){
@@ -21,4 +25,8 @@ export function getComments(id){
 }
 export function saveComment(data){
     return http().post('/administrator/rtgs/comments/',data)
+}
+
+export function reverse(data){
+    return http().post('/administrator/rtgs/reverse',data)
 }

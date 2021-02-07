@@ -11,6 +11,7 @@ import router from '../js/router'
 import store from './store'
 import '@babel/polyfill';
 import moment from 'moment';
+import zxcvbn from 'zxcvbn';
 
 Vue.filter('formatDate',function(value){
     if(value){
@@ -21,6 +22,7 @@ Vue.filter('formatDate',function(value){
 
 const app = new Vue({
     vuetify:Vuetify,
+    zxcvbn:zxcvbn,
     el: '#app',
     router,
     store

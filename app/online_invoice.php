@@ -20,7 +20,7 @@ class online_invoice extends Model
      }
 
      public function rtgs(){
-         return $this->hasOne('App\rtgs','invoice_number','invoice_number');
+         return $this->hasMany('App\rtgs','invoice_number','invoice_number');
      }
 
      public function internal_payments(){
@@ -41,6 +41,10 @@ class online_invoice extends Model
 
       public function transfers(){
           return $this->hasMany(transfers::class,'invoicenumber','invoice_number');
+      }
+
+      public function assigned(){
+          return $this->hasOne(operationtasks::class,'company_id','company_id')->where(['action'=>'INVOICE_APPROVAL','status'=>'PENDING']);
       }
 
       public function formate(){

@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Interfaces\administrator\AdminAuthInterface;
+use App\Interfaces\administrator\banktransactionInterface;
+use App\Interfaces\administrator\invoicingTaskInterface;
+use App\Interfaces\administrator\taskInterface;
 use App\Interfaces\bidder\AuthInterface;
 use App\Interfaces\bidder\bankpaymentsInterface;
 use App\Interfaces\bidder\documentInterface;
@@ -13,14 +17,18 @@ use App\Interfaces\bidder\profileRepository;
 use App\Interfaces\bidder\receiptInterface;
 use App\Interfaces\generalInterface;
 use App\Interfaces\welcomeInterface;
+use App\Repositories\AuthAdminRepository;
 use App\Repositories\AuthRepository;
 use App\Repositories\bankpaymentsRepository;
+use App\Repositories\banktransactionRepository;
 use App\Repositories\documentRepository;
 use App\Repositories\generalRepository;
 use App\Repositories\invoicingRepository;
+use App\Repositories\invoicingTaskRepository;
 use App\Repositories\mobilePaymentRepository;
 use App\Repositories\onlinepaymentRepository;
 use App\Repositories\receiptRepository;
+use App\Repositories\taskRepository;
 use App\Repositories\welcomeRepository;
 use Illuminate\Support\ServiceProvider;
 
@@ -43,6 +51,17 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(bankpaymentsInterface::class,bankpaymentsRepository::class);
         $this->app->bind(welcomeInterface::class,welcomeRepository::class);
         $this->app->bind(receiptInterface::class,receiptRepository::class);
+       
+
+
+        /**
+         * administrator  bindings
+         */
+
+         $this->app->bind(AdminAuthInterface::class,AuthAdminRepository::class);
+         $this->app->bind(invoicingTaskInterface::class,invoicingTaskRepository::class);
+         $this->app->bind(taskInterface::class,taskRepository::class);
+         $this->app->bind(banktransactionInterface::class,banktransactionRepository::class);
     }
 
     /**

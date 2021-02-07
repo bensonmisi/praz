@@ -36,6 +36,10 @@ class generalHelpers{
     {
        return Auth::user()->id;  
     }
+
+    public function getAdminUser(){
+        return Auth::guard('admin')->user(); 
+    }
     public function getCompanyDocuments($companyid){
         $company = company::whereid($companyid)->first();
         $documents = documents::whereaccounttype_id($company->accounttype_id)->wherelocality($company->locality)->with(['company'=>function($query)use($company){
@@ -280,7 +284,7 @@ class generalHelpers{
       $transfers =  transfers::whereinvoicenumber($invoice_number)
                              ->wherestatus('PENDING')
                              ->get();
-        $array =[];
+        $array =[]; 
         if(count($transfers)>0){
              foreach ($transfers as $key => $value)
               {
@@ -307,4 +311,20 @@ class generalHelpers{
 
 
   }
+
+  public function  checkTask($companyid){
+    $invoices = online_invoice::wherecompany_id($companyid)->wherestatus('AWAITING')->get();
+
+    if(count($invoices)==0){
+      $task= operationtasks::wherecompany_id($companyid)->whereaction('INVOICE_APPROVAL')->first();
+      $task->status ="ACTIONED";
+      $task->save();
+      $user = operationtask_user::whereoperationtask_id($task->id)->first();
+      $user->status="ACTIONED";
+      $user->save();
+
+    }
+  }
+
+  
 }

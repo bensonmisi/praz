@@ -27,7 +27,7 @@ class mobilePaymentRepository implements mobilePaymentsInterface{
        $invoice = online_invoice::wherecompany_id($company)->wherestatus('PENDING')->where('year','>=',Carbon::now()->year)->first();
        if(!is_null($invoice)){
             $invoice_number = $invoice->invoice_number;
-            $payment =  $paynow->createPayment($invoice_number,Auth::user()->email);
+            $payment =  $paynow->createPayment($invoice_number,'benson.misi@gmail.com');
             $payment->add($invoice_number,$request->amount);
             $response = $paynow->sendMobile($payment,$request->phone,$request->mode);           
               
@@ -55,7 +55,7 @@ class mobilePaymentRepository implements mobilePaymentsInterface{
                 $paynow = $this->helper->paynowMobile();
                 $status = $paynow->pollTransaction($payment->poll_url);
 
-                if($status->paid()){
+                if($status->status()=='paid' || $status->status()=='awaiting delivery'){
                     /**
                      * update online payment transaction to paid
                      */
@@ -93,7 +93,7 @@ class mobilePaymentRepository implements mobilePaymentsInterface{
                 }else{
                     $message =$payment->invoice->currency->name."".$payment->amount."was ".$status->status();
                     event(new paymentEvent($users,$message));
-                     return $this->error($status->errors(true),500);
+                     return $this->error($status->errors(),500);
                 }
 
               

@@ -26,6 +26,8 @@ class administrator extends Authenticatable
     {
         return $this->hasOne(roles::class,'id','role_id');
     }
+
+ 
     
     protected $hidden = [
         'password', 'remember_token',

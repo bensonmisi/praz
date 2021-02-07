@@ -174,8 +174,14 @@ export default {
                }
               
           }).catch(error=>{
+               this.loading = false
                this.snackbar = true
+               this.color="red"
                this.message = error
+               if(error.response.status==401){
+                   auth.removeItem()
+                    this.$router.push({name:'welcome'});
+               }
           })
       }
     },computed:{

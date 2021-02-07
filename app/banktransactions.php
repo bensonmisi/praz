@@ -9,6 +9,6 @@ class banktransactions extends Model
      protected $guarded=[];
 
      public function company(){
-         return $this->hasOne(company::class,'regnumber','regnumber');
+         return $this->hasOne(company::class,'regnumber','customer_number');
      }
 }

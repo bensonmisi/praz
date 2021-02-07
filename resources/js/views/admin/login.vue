@@ -134,18 +134,11 @@ export default {
             if(this.$refs.form.validate()){
                 this.dialog = true
                auth.adminlogin(this.user).then(response=>{
-                   this.dialog = false
-                  
-                           if(response.status ==200) 
-                           { 
-                          auth.setToken(response.data);                     
-                       //   this.$router.push({name:'admin-dashboard'});
-                           }
-                           else{
-                            this.message= response.data.message 
-                          this.snackbar=true
-                          this.color="red"   
-                           }
+                       this.dialog = false                  
+                            
+                          auth.setToken(response.data.data);                     
+                         this.$router.push({name:'admin-dashboard'});
+                        
                }).catch(error=>{
                     this.dialog = false
                    switch (error.response.status) {
